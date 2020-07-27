@@ -1,0 +1,51 @@
+<!DOCTYPE html> 
+<html> 
+    <head>
+        <link rel="stylesheet" href="../css/login.css">
+    </head>
+<body> 
+    <h2>Register</h2> 
+    <!--Step 1 : Adding HTML-->
+    <div>
+        
+    </div>
+    <form action="/action_page.php"> 
+        <div class="container"> 
+            <label><b>Username</b></label> 
+            <input type="text" placeholder="Enter Username" name="uname" required> 
+  
+            <label><b>Password</b></label> 
+            <input type="password" placeholder="Enter Password" name="psw" required> 
+
+            <label><b>Type</b></label> 
+            <label class="radio"><b>Type</b></label>
+            <input type="radio" name="Mentor" value="mentor">Mentor</label>
+            <label class="radio">
+            <input type="radio" name="Mentee" value="mentee">Mentee</label>
+            
+            <fieldset>Tell us about you
+                <input type="text" id="about" name="about-me"><br>
+            </fieldset>
+            <!-- <div class="w3-dropdown-hover">
+                <button class="w3-button">Dropdown</button>
+                <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                  <a href="#" class="w3-bar-item w3-button">Link 1</a>
+                  <a href="#" class="w3-bar-item w3-button">Link 2</a>
+                  <a href="#" class="w3-bar-item w3-button">Link 3</a>
+                </div>
+              </div> -->
+            
+            <!-- insert text field -->
+
+            <button type="submit" id="register-button">Register</button>
+        </div> 
+  
+        <div class="container" style="background-color:#f1f1f1"> 
+            <button type="button" class="cancelbtn">Cancel</button> 
+            <!-- <span class="psw">Forgot <a href="#">password?</a></span>  -->
+        </div> 
+    </form> 
+  
+</body> 
+  
+</html> 
