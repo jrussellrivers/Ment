@@ -1,0 +1,23 @@
+{
+  "name": "projectm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "api-routes.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmitchell217/ProjectM.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dmitchell217/ProjectM/issues"
+  },
+  "homepage": "https://github.com/dmitchell217/ProjectM#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg-promise": "^10.5.8"
+  }
+}
