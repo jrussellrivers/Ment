@@ -1,6 +1,6 @@
 //To make your app.js look cleaner use this pattern
 // import checkIsLoggedIn from 'public/js/checkIsLoggedIn.js'
-const db = require('./app')
+// const db = require('./app')
 const passport = require('passport')
 const Strategy = require('passport-local').Strategy
 const checkIsLoggedIn = require('./public/js/checkIsLoggedIn.js')
@@ -10,7 +10,7 @@ const createUser = require('./public/js/createUser.js')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
-const apiRoutes = (app)=>{
+const apiRoutes = (app, db)=>{
 
         //  use static here
     // app.use(express.static('public')) - create static folders for public, mentor, and mentee
@@ -23,14 +23,16 @@ const apiRoutes = (app)=>{
 
     // seperate pg promise
     passport.use(new Strategy((username,password,callback)=>{
+        console.log(username, password)
         db.one(`SELECT * FROM users WHERE username='${username}'`)
         .then(u=>{
-            console.log(u)
-            bcrypt.compare(password, u.password)
-            .then(result=>{
-                if(!result) return callback(null,false)
-                return callback(null, u)
-            })
+            console.log(u) //
+            // bcrypt.compare(password, u.password)
+            // .then(result=>{
+            //     if(!result) return callback(null,false)
+            //     return callback(null, u)
+            // })
+            return callback(null, u) // delete/comment this out later
         })
         .catch(()=>callback(null,false))
     }))
@@ -50,14 +52,18 @@ const apiRoutes = (app)=>{
     // authenticate and attempt to serve mentor/mentee routing
 
     // change
-    app.get('/mentor', checkIsLoggedIn, (req,res)=>res.send(`You are Authenticated : ${req.user.username}
-    <br><a href="/logout">Logout</a>`))
+    app.get('/mentee', checkIsLoggedIn, (req,res)=> {
+    res.send(`You are Authenticated : ${req.user.username}
+    <br><a href="/logout">Logout</a>`)
+    })
     // change
     app.get('/login', (req,res)=>res.sendFile(__dirname + '/public/html/login.html'))
     // change
 
     // ternary for mentee or mentor, routes to user specific profile
     app.post('/login', passport.authenticate('local'), (req,res)=>{
+    // app.post('/login', (req,res)=>{
+        console.log(req.body)
         res.redirect('/')
     })
     // this is correct.

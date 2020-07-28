@@ -1,3 +1,4 @@
+// put this in models folder
 const CRUD = require('./CRUD')
 
 const User = (db)=>{

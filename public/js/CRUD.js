@@ -1,4 +1,4 @@
-
+// put this in models folder
 const CRUD = (db, table)=>{
     const findAllItems = async ()=> await db.any(`SELECT * FROM ${table}`);
 
