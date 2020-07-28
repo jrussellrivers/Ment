@@ -6,12 +6,12 @@ const Strategy = require('passport-local').Strategy
 const checkIsLoggedIn = require('./public/js/checkIsLoggedIn.js')
 const checkIfExist = require('./public/js/checkIfExist.js')
 const createUser = require('./public/js/createUser.js')
+const createProfile = require('./public/js/createProfile.js')
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 const apiRoutes = (app, db)=>{
-
         //  use static here
     // app.use(express.static('public')) - create static folders for public, mentor, and mentee
     // app.get('/', (req, res)=> {
@@ -23,7 +23,7 @@ const apiRoutes = (app, db)=>{
 
     // seperate pg promise
     passport.use(new Strategy((username,password,callback)=>{
-        console.log(username, password)
+        // console.log(username, password)
         db.one(`SELECT * FROM users WHERE username='${username}'`)
         .then(u=>{
             console.log(u) //
@@ -52,19 +52,24 @@ const apiRoutes = (app, db)=>{
     // authenticate and attempt to serve mentor/mentee routing
 
     // change
-    app.get('/mentee', checkIsLoggedIn, (req,res)=> {
-    res.send(`You are Authenticated : ${req.user.username}
-    <br><a href="/logout">Logout</a>`)
+    app.get(`/user/:id`, checkIsLoggedIn, async (req,res)=> {
+        // createProfile(req.params.id,db)
+        let userProfile = await createProfile(req.params.id, db)
+        res.send(userProfile)
+        res.redirect(`/`)
     })
+
     // change
     app.get('/login', (req,res)=>res.sendFile(__dirname + '/public/html/login.html'))
-    // change
+
 
     // ternary for mentee or mentor, routes to user specific profile
     app.post('/login', passport.authenticate('local'), (req,res)=>{
     // app.post('/login', (req,res)=>{
-        console.log(req.body)
-        res.redirect('/')
+        // console.log(req.body)
+        res.redirect(`/user/${req.user.id}`)
+        // req.body.type == 'T' ? res.redirect(`/mentee/:${req.body.id}`) : res.redirect(`/mentor/:${req.body.id}`)
+        // res.redirect('/')
     })
     // this is correct.
     app.get('/register', (req,res)=>res.sendFile(__dirname + '/public/html/register.html'))
