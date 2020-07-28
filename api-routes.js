@@ -65,11 +65,7 @@ const apiRoutes = (app, db)=>{
 
     // ternary for mentee or mentor, routes to user specific profile
     app.post('/login', passport.authenticate('local'), (req,res)=>{
-    // app.post('/login', (req,res)=>{
-        // console.log(req.body)
         res.redirect(`/user/${req.user.id}`)
-        // req.body.type == 'T' ? res.redirect(`/mentee/:${req.body.id}`) : res.redirect(`/mentor/:${req.body.id}`)
-        // res.redirect('/')
     })
     // this is correct.
     app.get('/register', (req,res)=>res.sendFile(__dirname + '/public/html/register.html'))

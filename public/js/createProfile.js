@@ -10,7 +10,9 @@ const prof = async (id, db) => {
     // findUser(id, db)
     let result = await db.one(`SELECT * FROM users WHERE id='${id}'`)
     let profile = 
-    `<div>${result.username}</div> <br><a href="/logout">Logout</a>`
+    `
+    <div>${result.username}</div> 
+    <br><a href="/logout">Logout</a>`
 
     return profile
 }
