@@ -9,22 +9,22 @@
     <div>
         
     </div>
-    <form action="/action_page.php"> 
+    <form action="/register" method="POST"> 
         <div class="container"> 
             <label><b>Username</b></label> 
-            <input type="text" placeholder="Enter Username" name="uname" required> 
+            <input type="text" placeholder="Enter Username" name="uname" id = "username" required> 
   
             <label><b>Password</b></label> 
-            <input type="password" placeholder="Enter Password" name="psw" required> 
+            <input type="password" placeholder="Enter Password" name="psw" id = "password" required> 
 
             <label><b>Type</b></label> 
             <label class="radio"><b>Type</b></label>
-            <input type="radio" name="Mentor" value="mentor">Mentor</label>
+            <input type="radio" name="Mentor" value="mentor" id = "radio1">Mentor</label>
             <label class="radio">
-            <input type="radio" name="Mentee" value="mentee">Mentee</label>
+            <input type="radio" name="Mentee" value="mentee" id = "radio2">Mentee</label>
             
             <fieldset>Tell us about you
-                <input type="text" id="about" name="about-me"><br>
+                <input type="text" id="about" name="about-me" id = "about"><br>
             </fieldset>
             <!-- <div class="w3-dropdown-hover">
                 <button class="w3-button">Dropdown</button>
@@ -47,5 +47,6 @@
     </form> 
   
 </body> 
+<script type = "module"></script>
   
 </html> 

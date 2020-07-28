@@ -14,7 +14,7 @@ app.use(express.static("public"));
 const connect = {
     host:'localhost',
     port:5432,
-    user:'jordanrivers', //Put your name here for now
+    user:'David', //Put your name here for now
     database:'project_m'
 }
 
@@ -25,3 +25,5 @@ const port = 5434;
 app.listen(port, ()=>{
     console.log(`listening on http://localhost:${port}`)
 })
+
+module.exports = db
