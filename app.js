@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const es6Renderer = require('express-es6-template-engine');
+const connect = require('./config.js')
 
 const pgp = require('pg-promise')()
 
@@ -14,6 +15,8 @@ app.set("views", "templates")
 app.set("view engine", "html")
 
 
+
+
 app.use(express.static("public"));
 
 const connect = {
@@ -22,6 +25,7 @@ const connect = {
     user:'David', //Put your name here for now
     database:'project_m'
 }
+
 
 const db = pgp(connect)
 require("./api-routes")(app, db);//sets the api

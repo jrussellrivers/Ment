@@ -6,6 +6,7 @@ CREATE TABLE users (
     mentor BOOLEAN,
     about TEXT,
     zipcode INTEGER
+
 );
 
 CREATE TABLE images (
