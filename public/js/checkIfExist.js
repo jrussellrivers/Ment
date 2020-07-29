@@ -1,3 +1,4 @@
+
 // need to get db in here
 const checkIfExist = async (req, res, next)=> {
     db = res.db

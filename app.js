@@ -15,7 +15,17 @@ app.set("views", "templates")
 app.set("view engine", "html")
 
 
+
+
 app.use(express.static("public"));
+
+const connect = {
+    host:'localhost',
+    port:5432,
+    user:'David', //Put your name here for now
+    database:'project_m'
+}
+
 
 const db = pgp(connect)
 require("./api-routes")(app, db);//sets the api

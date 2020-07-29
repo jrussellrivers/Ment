@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Images</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        img {
+            max-width:100px;
+            max-height:100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="upload-image">
+        <div id="image-to-Upload"></div>
+        <input type="file" accept="image/*" name="upload" id="upload" />
+        <button id="submit" class="hidden">Upload</button>
+    </div>
+    <div id="images">
+
+    </div>
+    <script src="../js/upload.js" type="module" ></script>
+</body>
+</html>
