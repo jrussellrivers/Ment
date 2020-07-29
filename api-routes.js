@@ -81,8 +81,6 @@ const apiRoutes = (app, db)=>{
                 }
             })
         }
-        console.log(userProfile)
-        console.log(typeof userProfile.mentor)
         // userProfile.type == 'T' ? showMenteeProfile() : showMentorProfile()
         if (userProfile.mentor == false) {
             showMenteeProfile();
@@ -113,6 +111,15 @@ const apiRoutes = (app, db)=>{
         req.logout()
         res.redirect('/login')
     })
+
+    // app.get(`/chat/:id`, async (req, res)=>{
+    //     let sender = req.user
+    //     let recipient_id = req.params.id
+    //     let room_id = await checkChatRoom(sender, recipient_id, db)
+    //     console.log(room_id)
+    //     if (room_id == false){res.redirect(`/user/${req.params.id}`)}
+    //     else{res.redirect(`/chat/${req.params.id}/${room_id}`)}
+    // })
     
 };
 module.exports = apiRoutes;
