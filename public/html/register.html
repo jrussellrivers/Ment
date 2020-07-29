@@ -1,46 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <link rel="stylesheet" href="../css/login.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
-</head>
+<!DOCTYPE html> 
+<html> 
+    <head>
+        <link rel="stylesheet" href="../css/login.css">
+    </head>
 <body> 
-    <header>
-        <div class="container is-fluid">
-          <div class="notification">
-        <nav class="level">
-          <!-- <p class="navbar-start">
-            <img src="/ProjectM/public/images/projm.png" alt="" style="height: 70px;">
-          </p> -->
-    
-          <p class="navbar-start">
-            <a href="home.html" class="link is-info">Home</a>
-          </p>
-    
-
-          <div class="navbar-end">
-            <div class="navbar-item">
-              <div class="buttons">
-    
-                <a href="register.html" class="button is-primary">
-                  <strong>Register</strong>
-                </a>
-    
-                <a href="login.html" class="button is-light">
-                  Log in
-                </a>
-    
-              </div>
-            </div>
-          </div>
-        </nav>
-      </div>
-    </div>
-      </header>
-
     <h2>Register</h2> 
     <!--Step 1 : Adding HTML-->
     <div>
@@ -49,30 +12,25 @@
     <form action="/register" method="POST"> 
         <div class="container"> 
             <label><b>Username</b></label> 
-            <input type="text" placeholder="Enter Username" name="uname" id = "username" required> 
+            <input type="text" placeholder="Enter Username" name="username" id = "username" required> 
+
+            <label><b>Email</b></label> 
+            <input type="text" placeholder="Enter Email" name="email" id = "email" required> 
   
             <label><b>Password</b></label> 
-            <input type="password" placeholder="Enter Password" name="psw" id = "password" required> 
+            <input type="password" placeholder="Enter Password" name="password" id = "password" required> 
 
-            <label><b>Type</b></label> 
+            <label><b>Zipcode</b></label> 
+            <input type="text" placeholder="Enter Zipcode" name="zipcode" id = "zipcode" required> 
+
             <label class="radio"><b>Type</b></label>
-            <input type="radio" name="Mentor" value="mentor" id = "radio1">Mentor</label>
+            <input type="radio" name="mentorBool" value="true" id = "radio1">Mentor</label>
             <label class="radio">
-            <input type="radio" name="Mentee" value="mentee" id = "radio2">Mentee</label>
+            <input type="radio" name="mentorBool" value="false" id = "radio2">Mentee</label>
             
             <fieldset>Tell us about you
-                <input type="text" id="about" name="about-me" id = "about"><br>
+                <input type="text" id="about" name="about" id = "about"><br>
             </fieldset>
-            <!-- <div class="w3-dropdown-hover">
-                <button class="w3-button">Dropdown</button>
-                <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                  <a href="#" class="w3-bar-item w3-button">Link 1</a>
-                  <a href="#" class="w3-bar-item w3-button">Link 2</a>
-                  <a href="#" class="w3-bar-item w3-button">Link 3</a>
-                </div>
-              </div> -->
-            
-            <!-- insert text field -->
 
             <button type="submit" id="register-button">Register</button>
         </div> 
@@ -85,4 +43,5 @@
   
 </body> 
 <script type = "module"></script>
-</html>
+  
+</html> 

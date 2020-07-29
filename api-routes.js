@@ -6,33 +6,42 @@ const Strategy = require('passport-local').Strategy
 const checkIsLoggedIn = require('./public/js/checkIsLoggedIn.js')
 const checkIfExist = require('./public/js/checkIfExist.js')
 const createUser = require('./public/js/createUser.js')
+const createProfile = require('./public/js/createProfile.js')
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 const apiRoutes = (app, db)=>{
-
         //  use static here
     // app.use(express.static('public')) - create static folders for public, mentor, and mentee
     // app.get('/', (req, res)=> {
     //     res.render('./public/index.html')
     // })
-    
+
+    //  this function passed in the database to all routes/middleware
+    const passInfo = (req, res, next) => {
+        res.db = db
+        res.saltRounds = saltRounds
+        res.bcrypt = bcrypt
+        next() 
+    }
+
+    app.use(passInfo)
     app.use(passport.initialize());
     app.use(passport.session());
 
     // seperate pg promise
     passport.use(new Strategy((username,password,callback)=>{
-        console.log(username, password)
+        // console.log(username, password)
         db.one(`SELECT * FROM users WHERE username='${username}'`)
         .then(u=>{
             console.log(u) //
-            // bcrypt.compare(password, u.password)
-            // .then(result=>{
-            //     if(!result) return callback(null,false)
-            //     return callback(null, u)
-            // })
-            return callback(null, u) // delete/comment this out later
+            bcrypt.compare(password, u.password)
+            .then(result=>{
+                if(!result) return callback(null,false)
+                return callback(null, u)
+            })
+            // return callback(null, u) // delete/comment this out later
         })
         .catch(()=>callback(null,false))
     }))
@@ -52,19 +61,45 @@ const apiRoutes = (app, db)=>{
     // authenticate and attempt to serve mentor/mentee routing
 
     // change
-    app.get('/mentee', checkIsLoggedIn, (req,res)=> {
-    res.send(`You are Authenticated : ${req.user.username}
-    <br><a href="/logout">Logout</a>`)
+    app.get(`/user/:id`, checkIsLoggedIn, async (req,res)=> {
+        // createProfile(req.params.id,db)
+        let userProfile = await createProfile(req.params.id, db)
+        // this can be declared elsewhere...
+        const showMenteeProfile = () => {
+            res.render("mentee_profile", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.id}` + '</a>'
+                }
+            })
+        }
+        const showMentorProfile = () => {
+            res.render("mentor_profile", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.id}` + '</a>'
+                }
+            })
+        }
+        console.log(userProfile)
+        console.log(typeof userProfile.mentor)
+        // userProfile.type == 'T' ? showMenteeProfile() : showMentorProfile()
+        if (userProfile.mentor == false) {
+            showMenteeProfile();
+          } else if (userProfile.mentor == true) {
+            showMentorProfile();
+          } else {
+            res.redirect('/');
+          }
     })
+
     // change
     app.get('/login', (req,res)=>res.sendFile(__dirname + '/public/html/login.html'))
-    // change
+
 
     // ternary for mentee or mentor, routes to user specific profile
     app.post('/login', passport.authenticate('local'), (req,res)=>{
-    // app.post('/login', (req,res)=>{
-        console.log(req.body)
-        res.redirect('/')
+        res.redirect(`/user/${req.user.id}`)
     })
     // this is correct.
     app.get('/register', (req,res)=>res.sendFile(__dirname + '/public/html/register.html'))

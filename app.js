@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const es6Renderer = require('express-es6-template-engine');
 
 const pgp = require('pg-promise')()
 
@@ -8,6 +9,9 @@ const expressSession = eS({secret:'tghvbREGsdgwhwghwrggERgerBHerb', resave: fals
 
 app.use(express.urlencoded({extended: true}))
 app.use(expressSession)
+app.engine("html", es6Renderer)
+app.set("views", "templates")
+app.set("view engine", "html")
 
 
 app.use(express.static("public"));
