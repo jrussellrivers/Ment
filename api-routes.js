@@ -60,16 +60,16 @@ const apiRoutes = (app, db)=>{
     // login needs to be changed. find way to serve public website first, then only upon attempt to login
     // authenticate and attempt to serve mentor/mentee routing
 
-    // change
     app.get(`/user/:id`, checkIsLoggedIn, async (req,res)=> {
         // createProfile(req.params.id,db)
         let userProfile = await createProfile(req.params.id, db)
         // this can be declared elsewhere...
+
         const showMenteeProfile = () => {
             res.render("mentee_profile", {
                 locals: {
                 user: userProfile || {type:"N/A",username:"N/A"},
-                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.id}` + '</a>'
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
                 }
             })
         }
@@ -77,7 +77,7 @@ const apiRoutes = (app, db)=>{
             res.render("mentor_profile", {
                 locals: {
                 user: userProfile || {type:"N/A",username:"N/A"},
-                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.id}` + '</a>'
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
                 }
             })
         }
@@ -89,6 +89,10 @@ const apiRoutes = (app, db)=>{
           } else {
             res.redirect('/');
           }
+    })
+
+    app.get(`/lobby`, checkIsLoggedIn, async (req,res)=> {
+
     })
 
     // change
