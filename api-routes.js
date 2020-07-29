@@ -17,7 +17,16 @@ const apiRoutes = (app, db)=>{
     // app.get('/', (req, res)=> {
     //     res.render('./public/index.html')
     // })
-    
+
+    //  this function passed in the database to all routes/middleware
+    const passInfo = (req, res, next) => {
+        res.db = db
+        res.saltRounds = saltRounds
+        res.bcrypt = bcrypt
+        next() 
+    }
+
+    app.use(passInfo)
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -27,12 +36,12 @@ const apiRoutes = (app, db)=>{
         db.one(`SELECT * FROM users WHERE username='${username}'`)
         .then(u=>{
             console.log(u) //
-            // bcrypt.compare(password, u.password)
-            // .then(result=>{
-            //     if(!result) return callback(null,false)
-            //     return callback(null, u)
-            // })
-            return callback(null, u) // delete/comment this out later
+            bcrypt.compare(password, u.password)
+            .then(result=>{
+                if(!result) return callback(null,false)
+                return callback(null, u)
+            })
+            // return callback(null, u) // delete/comment this out later
         })
         .catch(()=>callback(null,false))
     }))
@@ -55,8 +64,31 @@ const apiRoutes = (app, db)=>{
     app.get(`/user/:id`, checkIsLoggedIn, async (req,res)=> {
         // createProfile(req.params.id,db)
         let userProfile = await createProfile(req.params.id, db)
-        res.send(userProfile)
-        res.redirect(`/`)
+        // this can be declared elsewhere...
+        const showMenteeProfile = () => {
+            res.render("mentee_profile", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.id}` + '</a>'
+                }
+            })
+        }
+        const showMentorProfile = () => {
+            res.render("mentor_profile", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.id}` + '</a>'
+                }
+            })
+        }
+        // userProfile.type == 'T' ? showMenteeProfile() : showMentorProfile()
+        if (userProfile.mentor == false) {
+            showMenteeProfile();
+          } else if (userProfile.mentor == true) {
+            showMentorProfile();
+          } else {
+            res.redirect('/');
+          }
     })
 
     // change
@@ -79,6 +111,15 @@ const apiRoutes = (app, db)=>{
         req.logout()
         res.redirect('/login')
     })
+
+    // app.get(`/chat/:id`, async (req, res)=>{
+    //     let sender = req.user
+    //     let recipient_id = req.params.id
+    //     let room_id = await checkChatRoom(sender, recipient_id, db)
+    //     console.log(room_id)
+    //     if (room_id == false){res.redirect(`/user/${req.params.id}`)}
+    //     else{res.redirect(`/chat/${req.params.id}/${room_id}`)}
+    // })
     
 };
 module.exports = apiRoutes;

@@ -1,10 +1,11 @@
 CREATE TABLE users (
     id serial primary key,
-    username VARCHAR,
-    email VARCHAR,
+    username VARCHAR UNIQUE,
+    email VARCHAR UNIQUE,
     password VARCHAR,
-    type CHAR,
-    about TEXT
+    mentor BOOLEAN,
+    about TEXT,
+    zipcode INTEGER
 );
 
 CREATE TABLE images (

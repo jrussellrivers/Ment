@@ -12,30 +12,25 @@
     <form action="/register" method="POST"> 
         <div class="container"> 
             <label><b>Username</b></label> 
-            <input type="text" placeholder="Enter Username" name="uname" id = "username" required> 
+            <input type="text" placeholder="Enter Username" name="username" id = "username" required> 
+
+            <label><b>Email</b></label> 
+            <input type="text" placeholder="Enter Email" name="email" id = "email" required> 
   
             <label><b>Password</b></label> 
-            <input type="password" placeholder="Enter Password" name="psw" id = "password" required> 
+            <input type="password" placeholder="Enter Password" name="password" id = "password" required> 
 
-            <label><b>Type</b></label> 
+            <label><b>Zipcode</b></label> 
+            <input type="text" placeholder="Enter Zipcode" name="zipcode" id = "zipcode" required> 
+
             <label class="radio"><b>Type</b></label>
-            <input type="radio" name="Mentor" value="mentor" id = "radio1">Mentor</label>
+            <input type="radio" name="mentorBool" value="true" id = "radio1">Mentor</label>
             <label class="radio">
-            <input type="radio" name="Mentee" value="mentee" id = "radio2">Mentee</label>
+            <input type="radio" name="mentorBool" value="false" id = "radio2">Mentee</label>
             
             <fieldset>Tell us about you
-                <input type="text" id="about" name="about-me" id = "about"><br>
+                <input type="text" id="about" name="about" id = "about"><br>
             </fieldset>
-            <!-- <div class="w3-dropdown-hover">
-                <button class="w3-button">Dropdown</button>
-                <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                  <a href="#" class="w3-bar-item w3-button">Link 1</a>
-                  <a href="#" class="w3-bar-item w3-button">Link 2</a>
-                  <a href="#" class="w3-bar-item w3-button">Link 3</a>
-                </div>
-              </div> -->
-            
-            <!-- insert text field -->
 
             <button type="submit" id="register-button">Register</button>
         </div> 

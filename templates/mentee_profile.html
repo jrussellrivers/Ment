@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+</head>
+<body>
+    <div class="w3-container">
+        <div class="w3-bar w3-green">
+          <a href="/" class="w3-bar-item w3-button">ProjectM</a>
+          <a href="#" class="w3-bar-item w3-button">Browse</a>
+          <a href="#" class="w3-bar-item w3-button">${user.username}</a>
+        </div>
+      </div>
+    <h1>
+        Welcome ${user.username}!
+    </h1>
+
+    <div>
+        <button>View Profile</button>
+        <button>Edit Profile</button>
+    </div>
+
+    <div>
+        Let's find you a mentor! 
+        <div>Mentors are great. Get one.</div>
+        <button>Find mentor</button>
+        ${chatlink}
+    </div>
+    <br>
+    <div>
+        <h1>
+            Manage Account
+        </h1>
+        <button>Change Password</button>
+        <form method="get" action="/logout">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</body>
+<script>
+
+</script>
+</html>
