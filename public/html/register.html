@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Register</title>
-        <link rel="stylesheet" href="../css/login.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     </head>
 <body> 
@@ -61,41 +60,82 @@
       </header>
 
 
-    <h2>Register</h2> 
-    <!--Step 1 : Adding HTML-->
-    <div>
-        
-    </div>
     <form action="/register" method="POST"> 
-        <div class="container"> 
-            <label><b>Username</b></label> 
-            <input type="text" placeholder="Enter Username" name="username" id = "username" required> 
+      <section class="section">
+        <div class="container">
+          <h1 class="title">Sign up</h1>
+          <div class="field">
+            <label class="label">Username</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input" type="text" placeholder="Enter Username" name="username" id ="username" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+              </span>
+            </div>
+          </div>
 
-            <label><b>Email</b></label> 
-            <input type="text" placeholder="Enter Email" name="email" id = "email" required> 
-  
-            <label><b>Password</b></label> 
-            <input type="password" placeholder="Enter Password" name="password" id = "password" required> 
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input" type="text" placeholder="Enter Email" name="email" id ="email" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+            </div>
+          </div>
 
-            <label><b>Zipcode</b></label> 
-            <input type="text" placeholder="Enter Zipcode" name="zipcode" id = "zipcode" required> 
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input" type="password" placeholder="Enter Password" name="password" id ="password" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </div>
+          </div>
 
-            <label class="radio"><b>Type</b></label>
-            <input type="radio" name="mentorBool" value="true" id = "radio1">Mentor</label>
-            <label class="radio">
-            <input type="radio" name="mentorBool" value="false" id = "radio2">Mentee</label>
-            
-            <fieldset>Tell us about you
-                <input type="text" id="about" name="about" id = "about"><br>
-            </fieldset>
+          <div class="field is-small">
+            <label class="label">Zip Code</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input" type="text" placeholder="Zip Code" name="zipcode" id ="zipcode" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-home"></i>
+              </span>
+            </div>
+          </div>
 
-            <button type="submit" id="register-button">Register</button>
-        </div> 
-  
-        <div class="container" style="background-color:#f1f1f1"> 
-            <button type="button" class="cancelbtn">Cancel</button> 
-            <!-- <span class="psw">Forgot <a href="#">password?</a></span>  -->
-        </div> 
+          <div class="field">
+            <div class="control">
+              <label class="label">Type</label>
+              <label class="radio">
+                <input type="radio" name="mentorBool" value="true" id = "radio1" required>
+                Mentor
+              </label>
+              <label class="radio">
+                <input type="radio" name="mentorBool" value="false" id = "radio2" required>
+                Mentee
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Tell us about yourself..</label>
+            <div class="control">
+              <textarea class="textarea" type="text" id="about" name="about" placeholder="Please fill this out..."></textarea>
+            </div>
+          </div>
+
+
+          <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-primary" type="submit" id="register-button">Submit</button>
+            </div>
+            <div class="control">
+              <button class="button is-link is-light" type="reset" id="cancel-button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </section>
     </form> 
   
 </body> 

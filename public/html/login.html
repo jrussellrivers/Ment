@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
-        <link rel="stylesheet" href="../css/login.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     </head>
 <body> 
@@ -60,25 +59,42 @@
         </nav>
       </header>
 
-    <h2>Login</h2> 
-    <div>
-        
-    </div>
-    <form action="/login" method="POST"> 
-        <div class="container"> 
-            <label><b>Username</b></label> 
-            <input type="text" placeholder="Enter Username" name="username" id = "username" required> 
-  
-            <label><b>Password</b></label> 
-            <input type="password" placeholder="Enter Password" name="password" id = "password" required> 
+    <form action="/login" method="POST">
+      <section class="section">
+        <div class="container">
+          <h1 class="title">Login</h1>
+            <div class="field">
+            <label class="label">Username</label>
+              <div class="control has-icons-left has-icons-right">
+              <input class="input" type="text" placeholder="Enter Username" name="username" id="username" required>
+              <span class="icon is-small is-left">
+              <i class="fas fa-user"></i>
+              </span>
+          </div>
+      </div>
 
-            <button type="submit" id="login-button">Login</button>
-        </div> 
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="control has-icons-left has-icons-right">
+          <input class="input" type="password" placeholder="Enter Password" name="password" id="password" required>
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-primary" type="submit" id="login-button">Login</button>
+        </div>
+        <div class="control">
+          <button class="button is-link is-light" type="reset" id="cancel-button">Cancel</button>
+        </div>
+      </div>
+    </div>
+
     </form> 
-    <div class="container" style="background-color:#f1f1f1"> 
-        <button type="button" class="cancelbtn">Cancel</button> 
-        <span class="psw">Forgot <a href="#">password?</a></span> 
-    </div> 
+
   
 </body> 
 <script type = "module"></script>
