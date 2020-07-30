@@ -2,6 +2,7 @@
 // import checkIsLoggedIn from 'public/js/checkIsLoggedIn.js'
 // const db = require('./app')
 const passport = require('passport')
+const formidable = require("formidable");
 const Strategy = require('passport-local').Strategy
 const checkIsLoggedIn = require('./public/js/checkIsLoggedIn.js')
 const checkIfExist = require('./public/js/checkIfExist.js')
@@ -65,7 +66,6 @@ const apiRoutes = (app, db)=>{
         // createProfile(req.params.id,db)
         let userProfile = await createProfile(req.params.id, db)
         // this can be declared elsewhere...
-
         const showMenteeProfile = () => {
             res.render("mentee_profile", {
                 locals: {
@@ -153,6 +153,43 @@ const apiRoutes = (app, db)=>{
     //     if (room_id == false){res.redirect(`/user/${req.params.id}`)}
     //     else{res.redirect(`/chat/${req.params.id}/${room_id}`)}
     // })
+   
+  app.post("/image-uploaded", async (req, res) => {
+  let form = {};
+
+  //this will take all of the fields (including images) and put the value in the form object above
+  new formidable.IncomingForm()
+    .parse(req)
+    .on("field", (name, field) => {
+      form[name] = field;
+    })
+    .on("fileBegin", (name, file) => {
+      //sets the path to save the image
+      file.path =
+        __dirname +
+        "/public/profile_images/" +
+        new Date().getTime() +
+        file.name;
+    })
+    .on("file", (name, file) => {
+      //console.log('Uploaded file', name, file);
+      form.profile_image = file.path.replace(__dirname + "/public", "");
+    })
+
+    .on ("end", async () => {
+      console.log("your photo is uploaded!");
+    
+  //     //Now i can save the form to the database
+      let newimageaddress= '<img src="' + form.profile_image + '" alt="profile pic">'
+      let results = await db.none("insert into images (user_id, imgname) values ($1, $2)", [req.user.id, newimageaddress])
+      console.log(results)
+      res.json({"url": `/user/${req.user.id}`})
+      });
+
+      // console.log(db.one('select * from images'))
+      
+     ; //this just sends databack
+});
     
 };
 module.exports = apiRoutes;

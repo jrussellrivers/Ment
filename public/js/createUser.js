@@ -1,4 +1,3 @@
-
 const createUser = async (req,res,next) => {
     db = res.db
     saltRounds = res.saltRounds

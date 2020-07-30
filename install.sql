@@ -6,6 +6,10 @@ CREATE TABLE users (
     mentor BOOLEAN,
     about TEXT,
     zipcode INTEGER
+
 );
 
--- add expertise tages --> Tech, Finance/consulting, University, Life
+CREATE TABLE images (
+    user_id INTEGER REFERENCES users (id),
+    imgname text
+);
