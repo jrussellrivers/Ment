@@ -4,6 +4,7 @@
 const passport = require('passport')
 const formidable = require("formidable");
 const Strategy = require('passport-local').Strategy
+const fs = require('fs')
 const checkIsLoggedIn = require('./public/js/checkIsLoggedIn.js')
 const checkIfExist = require('./public/js/checkIfExist.js')
 const createUser = require('./public/js/createUser.js')
@@ -161,7 +162,7 @@ const apiRoutes = (app, db)=>{
     //     else{res.redirect(`/chat/${req.params.id}/${room_id}`)}
     // })
 
-    app.post("/image-uploaded", async (req, res) => {
+    app.post("/image-uploaded", checkIsLoggedIn, async (req, res) => {
     let form = {};
 
     //this will take all of the fields (including images) and put the value in the form object above
@@ -172,30 +173,47 @@ const apiRoutes = (app, db)=>{
         })
         .on("fileBegin", (name, file) => {
         //sets the path to save the image
-        file.path =
+        let filepath =
             __dirname +
             "/public/profile_images/" +
             new Date().getTime() +
             file.name;
+            file.path = filepath.replace(/\s/g, '')
         })
         .on("file", (name, file) => {
         //console.log('Uploaded file', name, file);
+        // new_path = file.path.split().join("")
+        // new_path = file.path.replace(/\s/g, '')
+        console.log("187", file.path)
         form.profile_image = file.path.replace(__dirname + "/public", "");
+        console.log(form.profile_image)
         })
 
         .on ("end", async () => {
-        console.log("your photo is uploaded!");
-        
-    //     //Now i can save the form to the database
-        let newimageaddress= '<img src="' + form.profile_image + '" alt="profile pic">'
-        let results = await db.none("insert into images (user_id, imgname) values ($1, $2)", [req.user.id, newimageaddress])
-        console.log(results)
-        res.json({"url": `/user/${req.user.id}`})
-        });
+            console.log("your photo is uploaded!");
+            
+        //Now i can save the form to the database
+            let pid = req.user.id
+            let newimageaddress= '<img src="' + form.profile_image + '"'
+            let checkphoto = await db.one(`SELECT imgname FROM images WHERE user_id ='${pid}'`)
+            console.log(checkphoto.imgname, "199")
 
-        // console.log(db.one('select * from images'))
-        
-        ; //this just sends databack
+            if (checkphoto.imgname != '<img src="/profile_images/default.jpg">')
+            {
+                console.log(form.profile_image, "203")
+                console.log(checkphoto.imgname, "204")
+                let file = checkphoto.imgname.replace('<img src="', '').replace('">', '').replace('"', '')
+                console.log(file, "206")
+                if(fs.existsSync('./public' + file))
+                {fs.unlinkSync('./public' + file)}
+                // if(fs.existsSync('./public' + form.profile_image))
+                // {fs.unlinkSync('./public' + form.profile_image)}
+            }
+            console.log(newimageaddress)
+            let result = await db.none(`UPDATE images set imgname = '${newimageaddress}' where user_id = '${pid}'`)
+            res.json({"url": `/user/${req.user.id}`})
+            // res.send(result)
+            });
     });
     
     app.get('/chat/:id', checkIsLoggedIn, async (req, res)=>{
