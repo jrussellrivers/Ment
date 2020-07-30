@@ -13,8 +13,6 @@ CREATE TABLE images (
     user_id INTEGER REFERENCES users (id),
     imgname text
 );
-<<<<<<< HEAD
-=======
 
 CREATE TABLE chat_rooms (
     id SERIAL PRIMARY KEY,
@@ -28,4 +26,3 @@ CREATE TABLE chat_messages (
     sent_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     chat_id INTEGER REFERENCES chat_rooms (id)
 );
->>>>>>> origin/master

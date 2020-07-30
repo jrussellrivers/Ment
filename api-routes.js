@@ -8,13 +8,11 @@ const checkIsLoggedIn = require('./public/js/checkIsLoggedIn.js')
 const checkIfExist = require('./public/js/checkIfExist.js')
 const createUser = require('./public/js/createUser.js')
 const createProfile = require('./public/js/createProfile.js')
+const getPhoto = require('./public/js/getPhoto.js')
 const findMents = require('./public/js/findMents.js')
-<<<<<<< HEAD
-=======
 const checkChatRoom = require('./public/js/checkChatRoom.js')
 const renderChatRoom = require('./public/js/renderChatRoom.js')
 const makeMessage = require('./public/js/makeMessage.js')
->>>>>>> origin/master
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
@@ -72,18 +70,21 @@ const apiRoutes = (app, db)=>{
         // createProfile(req.params.id,db)
         let userProfile = await createProfile(req.params.id, db)
         // this can be declared elsewhere...
-        const showMenteeProfile = () => {
+        let picture = await getPhoto(req.params.id, db)
+        const showMenteeProfile = async () => {
             res.render("mentee_profile", {
                 locals: {
                 user: userProfile || {type:"N/A",username:"N/A"},
+                picture: picture,
                 chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
                 }
             })
         }
-        const showMentorProfile = () => {
+        const showMentorProfile = async () => {
             res.render("mentor_profile", {
                 locals: {
                 user: userProfile || {type:"N/A",username:"N/A"},
+                picture: picture,
                 chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
                 }
             })
