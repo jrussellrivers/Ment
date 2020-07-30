@@ -7,3 +7,5 @@ CREATE TABLE users (
     about TEXT,
     zipcode INTEGER
 );
+
+-- add expertise tages --> Tech, Finance/consulting, University, Life

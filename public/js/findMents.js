@@ -9,34 +9,36 @@ const findMents = async (user, category, value, db) => {
     // then generate hmtl cards for each user result. join at the end. Potentially sort them.
     let new_html = ''
     ments.map(ment=>{
-        let new_card = `
-                    <div class="card">
-            <div class="card-image">
-                <figure class="image is-4by3">
-                <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                </figure>
-            </div>
-            <div class="card-content">
-                <div class="media">
-                <div class="media-left">
-                    <figure class="image is-48x48">
-                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+        let new_card = 
+            `
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
                     </figure>
                 </div>
-                <div class="media-content">
-                    <p class="title is-4">${ment.username}</p>
-                    <p class="subtitle is-6">${ment.email}</p>
-                    <p class="subtitle is-6">${ment.zipcode}</p>
-                </div>
-                </div>
+                <div class="card-content">
+                    <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-48x48">
+                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <p class="title is-4">${ment.username}</p>
+                        <p class="subtitle is-6">${ment.email}</p>
+                        <p class="subtitle is-6">${ment.zipcode}</p>
+                    </div>
+                    </div>
 
-                <div class="content">
-                ${ment.about}
-                <a href="/user/${ment.id}">Ment Profile</a>
-                <br>
+                    <div class="content">
+                    ${ment.about}
+                    <a href="/user/${ment.id}">Ment Profile</a>
+                    <br>
+                    </div>
                 </div>
             </div>
-            </div>`
+            `
             new_html = new_html + new_card
     }).sort((a,b)=>a.username-b.username).join("")
     return new_html
