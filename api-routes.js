@@ -126,42 +126,14 @@ const apiRoutes = (app, db)=>{
     //     else{res.redirect(`/chat/${req.params.id}/${room_id}`)}
     // })
    
-  app.post("/image-uploaded", async (req, res) => {
-  let form = {};
+  
+     app.post("/image-uploaded", async (req, res) => {
+        uploadImage(req, db)
 
-  //this will take all of the fields (including images) and put the value in the form object above
-  new formidable.IncomingForm()
-    .parse(req)
-    .on("field", (name, field) => {
-      form[name] = field;
-    })
-    .on("fileBegin", (name, file) => {
-      //sets the path to save the image
-      file.path =
-        __dirname +
-        "/public/profile_images/" +
-        new Date().getTime() +
-        file.name;
-    })
-    .on("file", (name, file) => {
-      //console.log('Uploaded file', name, file);
-      form.profile_image = file.path.replace(__dirname + "/public", "");
-    })
+    //this will take all of the fields (including images) and put the value in the form object above
 
-    .on ("end", async () => {
-      console.log("your photo is uploaded!");
-    
-  //     //Now i can save the form to the database
-      let newimageaddress= '<img src="' + form.profile_image + '" alt="profile pic">'
-      let results = await db.none("insert into images (user_id, imgname) values ($1, $2)", [req.user.id, newimageaddress])
-      console.log(results)
-      res.json({"url": `/user/${req.user.id}`})
-      });
-
-      // console.log(db.one('select * from images'))
-      
-     ; //this just sends databack
-});
+        res.json({"url": `/user/${req.user.id}`})
+     })
     
 };
 module.exports = apiRoutes;
