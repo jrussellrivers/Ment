@@ -82,8 +82,10 @@ const apiRoutes = (app, db)=>{
                 }
             })
         }
+
         console.log(userProfile)
         console.log(typeof userProfile.mentor)
+
         // userProfile.type == 'T' ? showMenteeProfile() : showMentorProfile()
         if (userProfile.mentor == false) {
             showMenteeProfile();
