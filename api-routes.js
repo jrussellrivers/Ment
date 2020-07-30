@@ -9,6 +9,12 @@ const checkIfExist = require('./public/js/checkIfExist.js')
 const createUser = require('./public/js/createUser.js')
 const createProfile = require('./public/js/createProfile.js')
 const findMents = require('./public/js/findMents.js')
+<<<<<<< HEAD
+=======
+const checkChatRoom = require('./public/js/checkChatRoom.js')
+const renderChatRoom = require('./public/js/renderChatRoom.js')
+const makeMessage = require('./public/js/makeMessage.js')
+>>>>>>> origin/master
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
@@ -153,44 +159,67 @@ const apiRoutes = (app, db)=>{
     //     if (room_id == false){res.redirect(`/user/${req.params.id}`)}
     //     else{res.redirect(`/chat/${req.params.id}/${room_id}`)}
     // })
-   
-  app.post("/image-uploaded", async (req, res) => {
-  let form = {};
 
-  //this will take all of the fields (including images) and put the value in the form object above
-  new formidable.IncomingForm()
-    .parse(req)
-    .on("field", (name, field) => {
-      form[name] = field;
-    })
-    .on("fileBegin", (name, file) => {
-      //sets the path to save the image
-      file.path =
-        __dirname +
-        "/public/profile_images/" +
-        new Date().getTime() +
-        file.name;
-    })
-    .on("file", (name, file) => {
-      //console.log('Uploaded file', name, file);
-      form.profile_image = file.path.replace(__dirname + "/public", "");
-    })
+    app.post("/image-uploaded", async (req, res) => {
+    let form = {};
 
-    .on ("end", async () => {
-      console.log("your photo is uploaded!");
+    //this will take all of the fields (including images) and put the value in the form object above
+    new formidable.IncomingForm()
+        .parse(req)
+        .on("field", (name, field) => {
+        form[name] = field;
+        })
+        .on("fileBegin", (name, file) => {
+        //sets the path to save the image
+        file.path =
+            __dirname +
+            "/public/profile_images/" +
+            new Date().getTime() +
+            file.name;
+        })
+        .on("file", (name, file) => {
+        //console.log('Uploaded file', name, file);
+        form.profile_image = file.path.replace(__dirname + "/public", "");
+        })
+
+        .on ("end", async () => {
+        console.log("your photo is uploaded!");
+        
+    //     //Now i can save the form to the database
+        let newimageaddress= '<img src="' + form.profile_image + '" alt="profile pic">'
+        let results = await db.none("insert into images (user_id, imgname) values ($1, $2)", [req.user.id, newimageaddress])
+        console.log(results)
+        res.json({"url": `/user/${req.user.id}`})
+        });
+
+        // console.log(db.one('select * from images'))
+        
+        ; //this just sends databack
+    });
     
-  //     //Now i can save the form to the database
-      let newimageaddress= '<img src="' + form.profile_image + '" alt="profile pic">'
-      let results = await db.none("insert into images (user_id, imgname) values ($1, $2)", [req.user.id, newimageaddress])
-      console.log(results)
-      res.json({"url": `/user/${req.user.id}`})
-      });
-
-      // console.log(db.one('select * from images'))
-      
-     ; //this just sends databack
-});
+    app.get('/chat/:id', checkIsLoggedIn, async (req, res)=>{
+        let sender = req.user
+        let recipient_id = req.params.id
+        let room_id = await checkChatRoom(sender, recipient_id, db)
+        if (room_id == false){res.redirect(`/user/${req.params.id}`)}
+        else{res.redirect(`/chat/room/${room_id}`)}
+    })
     
+    app.get('/chat/room/:id', checkIsLoggedIn, async (req,res) =>{
+        let messages = await renderChatRoom(db, req.params.id)
+        res.render("chat_room", {
+            locals: {
+            room_id:req.params.id,
+            messages: messages,
+            actionstring:'action="/chat/room/' + req.params.id + '"'
+            }
+        })
+    })
+
+    app.post('/chat/room/:id', checkIsLoggedIn, async (req,res) =>{
+        await makeMessage(db, req.body.messageinput, req.user.username, req.params.id)
+        res.redirect(`/chat/room/${req.params.id}`)
+    })
 };
 module.exports = apiRoutes;
 
