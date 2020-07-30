@@ -8,6 +8,7 @@ const checkIsLoggedIn = require('./public/js/checkIsLoggedIn.js')
 const checkIfExist = require('./public/js/checkIfExist.js')
 const createUser = require('./public/js/createUser.js')
 const createProfile = require('./public/js/createProfile.js')
+const findMents = require('./public/js/findMents.js')
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
@@ -61,7 +62,6 @@ const apiRoutes = (app, db)=>{
     // login needs to be changed. find way to serve public website first, then only upon attempt to login
     // authenticate and attempt to serve mentor/mentee routing
 
-    // change
     app.get(`/user/:id`, checkIsLoggedIn, async (req,res)=> {
         // createProfile(req.params.id,db)
         let userProfile = await createProfile(req.params.id, db)
@@ -70,7 +70,7 @@ const apiRoutes = (app, db)=>{
             res.render("mentee_profile", {
                 locals: {
                 user: userProfile || {type:"N/A",username:"N/A"},
-                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.id}` + '</a>'
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
                 }
             })
         }
@@ -78,14 +78,10 @@ const apiRoutes = (app, db)=>{
             res.render("mentor_profile", {
                 locals: {
                 user: userProfile || {type:"N/A",username:"N/A"},
-                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.id}` + '</a>'
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
                 }
             })
         }
-
-        console.log(userProfile)
-        console.log(typeof userProfile.mentor)
-
         // userProfile.type == 'T' ? showMenteeProfile() : showMentorProfile()
         if (userProfile.mentor == false) {
             showMenteeProfile();
@@ -94,6 +90,38 @@ const apiRoutes = (app, db)=>{
           } else {
             res.redirect('/');
           }
+    })
+    var new_cards = undefined
+    app.get(`/lobby`, checkIsLoggedIn, (req,res)=> {
+        // show boilerplate lobby first which includes a post form for the search.
+        // res.sendFile(__dirname + '/public/html/lobby.html')
+        // try {
+        console.log(new_cards)
+        if (new_cards == undefined){
+            new_cards = ''
+            res.render("lobby", {
+                locals: {
+                cards: new_cards,
+                user: req.user || {type:"N/A",username:"N/A"},
+                }
+            })
+        }else{
+        res.render("lobby", {
+            locals: {
+            cards: new_cards,
+            user: req.user || {type:"N/A",username:"N/A"},
+            }
+        })
+        }
+    })
+
+    app.post(`/lobby`, checkIsLoggedIn, async (req, res)=> {
+        let category = req.body.search
+        let searchQ = req.body.SearchQuery
+        let result = await findMents(req.user, category, searchQ, db);
+        new_cards = result
+        res.redirect('/lobby')
+    
     })
 
     // change
