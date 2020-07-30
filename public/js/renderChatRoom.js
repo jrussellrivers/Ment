@@ -3,7 +3,7 @@ const renderChatRoom = async (db, room_id) =>{
     new_html = ''
     messages.map(message=>{
         let date = message.sent_at
-        let new_date = date.toLocaleString() 
+        let new_date = date.toGMTString() 
         let new_message = `<div class='message'>
         <span class='message-name'>${message.sender}  </span>
         <span class='message-time'>[${new_date}]  </span>:
