@@ -11,7 +11,7 @@ const loadFile = (evt)=>{
     document.getElementById("submit").classList.remove("hidden")
 }
 
-const uploadToServer = (evt) =>{
+const uploadToServer = async (evt) =>{
         //best to commit it as such
         const formData = new FormData();
         formData.append('upload', file);
@@ -21,13 +21,17 @@ const uploadToServer = (evt) =>{
         formData.append('Some_other_DB_filed','AnotherValue' )//etc
 
         console.log(formData);
-        fetch('/image-uploaded', {
+        const response = await fetch('/image-uploaded', {
             method:'POST',
             body:formData
         })
-        .then(resp=>resp.json())
-        .then(data=>console.log(data))
-        .catch(err=>console.log(error))
+
+
+        const data = await response.json()
+        
+        console.log(response)
+        
+       window.location.replace(data.url)
     
 }
 
