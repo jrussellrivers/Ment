@@ -3,8 +3,11 @@ const createUser = async (req,res,next) => {
     saltRounds = res.saltRounds
     bcrypt = res.bcrypt
     let hash = await bcrypt.hash(req.body.password, saltRounds)
+    const searchRegExp = /'/g;
+    const replaceWith = "''";
+    const result = req.body.about.replace(searchRegExp, replaceWith)
     let insertion = await db.none(`INSERT INTO users (username, email, password, mentor, about, zipcode) VALUES ($1, $2, $3, $4, $5, $6)`, 
-    [req.body.username, req.body.email, hash, req.body.mentorBool, req.body.about, parseInt(req.body.zipcode)])
+    [req.body.username, req.body.email, hash, req.body.mentorBool, result, parseInt(req.body.zipcode)])
     next()
 }
 
