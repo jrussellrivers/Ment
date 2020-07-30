@@ -202,10 +202,12 @@ const apiRoutes = (app, db)=>{
         else{res.redirect(`/chat/room/${room_id}`)}
     })
     
-    app.get('/chat/room/:id', checkIsLoggedIn, async (req,res) =>{
+    app.get('/chat/room/:id', async (req,res) =>{
+        let return_message = await checkLoggedUser(db, req.user.id, req.params.id)
         let messages = await renderChatRoom(db, req.params.id)
         res.render("chat_room", {
             locals: {
+            return_link:'href="' + return_message + '"',
             room_id:req.params.id,
             messages: messages,
             actionstring:'action="/chat/room/' + req.params.id + '"'
