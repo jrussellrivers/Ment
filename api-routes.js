@@ -2,6 +2,7 @@
 // import checkIsLoggedIn from 'public/js/checkIsLoggedIn.js'
 // const db = require('./app')
 const passport = require('passport')
+const formidable = require("formidable");
 const Strategy = require('passport-local').Strategy
 const checkIsLoggedIn = require('./public/js/checkIsLoggedIn.js')
 const checkIfExist = require('./public/js/checkIfExist.js')
@@ -124,8 +125,8 @@ const apiRoutes = (app, db)=>{
     //     if (room_id == false){res.redirect(`/user/${req.params.id}`)}
     //     else{res.redirect(`/chat/${req.params.id}/${room_id}`)}
     // })
-        
-  app.post("/image-uploaded", (req, res) => {
+   
+  app.post("/image-uploaded", async (req, res) => {
   let form = {};
 
   //this will take all of the fields (including images) and put the value in the form object above
@@ -144,17 +145,22 @@ const apiRoutes = (app, db)=>{
     })
     .on("file", (name, file) => {
       //console.log('Uploaded file', name, file);
-      form.profile_image = file.path.replace(__dirname + "/public", " ");
+      form.profile_image = file.path.replace(__dirname + "/public", "");
     })
-    .on("end", () => {
-      console.log("your photo is uploaded!");
-      console.log(form);
-      //Now i can save the form to the database
-      const results = db.none("insert into images (user_id, imgname) values ($1, $2)", [req.user.id, form.profile_image])
-        .then((result) => console.log(result));
 
-      res.send(form); //this just sends databack
-    });
+    .on ("end", async () => {
+      console.log("your photo is uploaded!");
+    
+  //     //Now i can save the form to the database
+      let newimageaddress= '<img src="' + form.profile_image + '" alt="profile pic">'
+      let results = await db.none("insert into images (user_id, imgname) values ($1, $2)", [req.user.id, newimageaddress])
+      console.log(results)
+      res.json({"url": `/user/${req.user.id}`})
+      });
+
+      // console.log(db.one('select * from images'))
+      
+     ; //this just sends databack
 });
     
 };
