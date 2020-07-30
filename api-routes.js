@@ -7,6 +7,7 @@ const checkIsLoggedIn = require('./public/js/checkIsLoggedIn.js')
 const checkIfExist = require('./public/js/checkIfExist.js')
 const createUser = require('./public/js/createUser.js')
 const createProfile = require('./public/js/createProfile.js')
+const findMents = require('./public/js/findMents.js')
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
@@ -90,9 +91,37 @@ const apiRoutes = (app, db)=>{
             res.redirect('/');
           }
     })
+    var new_cards = undefined
+    app.get(`/lobby`, checkIsLoggedIn, (req,res)=> {
+        // show boilerplate lobby first which includes a post form for the search.
+        // res.sendFile(__dirname + '/public/html/lobby.html')
+        // try {
+        console.log(new_cards)
+        if (new_cards == undefined){
+            new_cards = ''
+            res.render("lobby", {
+                locals: {
+                cards: new_cards,
+                user: req.user || {type:"N/A",username:"N/A"},
+                }
+            })
+        }else{
+        res.render("lobby", {
+            locals: {
+            cards: new_cards,
+            user: req.user || {type:"N/A",username:"N/A"},
+            }
+        })
+        }
+    })
 
-    app.get(`/lobby`, checkIsLoggedIn, async (req,res)=> {
-
+    app.post(`/lobby`, checkIsLoggedIn, async (req, res)=> {
+        let category = req.body.search
+        let searchQ = req.body.SearchQuery
+        let result = await findMents(req.user, category, searchQ, db);
+        new_cards = result
+        res.redirect('/lobby')
+    
     })
 
     // change
