@@ -1,47 +1,169 @@
 <!DOCTYPE html> 
 <html> 
     <head>
-        <link rel="stylesheet" href="../css/login.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     </head>
 <body> 
-    <h2>Register</h2> 
-    <!--Step 1 : Adding HTML-->
-    <div>
+    <header>
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+          
+          <!-- This needs to be the Logo -->
+          <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+              <img src="/images/Ment.png" width="112" height="28">
+            </a>
         
-    </div>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+        
+          <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+              <a href="/" class="navbar-item">
+                Home
+              </a>
+    
+              <a class="navbar-item">
+                Lobby
+              </a>
+        
+              <a class="navbar-item">
+                About
+              </a>
+    
+              <a href="./html/card.html" class="navbar-item">
+                Test Card
+              </a>
+        
+            </div>
+        
+            <div class="navbar-end">
+              <div class="navbar-item">
+                <div class="buttons">
+                  <a href="/register" class="button is-primary">
+                    <strong>Sign up</strong>
+                  </a>
+                  <a href="/login" class="button is-light">
+                    Log in
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+
     <form action="/register" method="POST"> 
-        <div class="container"> 
-            <label><b>Username</b></label> 
-            <input type="text" placeholder="Enter Username" name="username" id = "username" required> 
+      <section class="section">
+        <div class="container">
+          <h1 class="title">Sign up</h1>
+          <div class="field">
+            <label class="label">Username</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input" type="text" placeholder="Enter Username" name="username" id ="username" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+              </span>
+            </div>
+          </div>
 
-            <label><b>Email</b></label> 
-            <input type="text" placeholder="Enter Email" name="email" id = "email" required> 
-  
-            <label><b>Password</b></label> 
-            <input type="password" placeholder="Enter Password" name="password" id = "password" required> 
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input" type="text" placeholder="Enter Email" name="email" id ="email" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+            </div>
+          </div>
 
-            <label><b>Zipcode</b></label> 
-            <input type="text" placeholder="Enter Zipcode" name="zipcode" id = "zipcode" required> 
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input" type="password" placeholder="Enter Password" name="password" id ="password" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </div>
+          </div>
 
-            <label class="radio"><b>Type</b></label>
-            <input type="radio" name="mentorBool" value="true" id = "radio1">Mentor</label>
-            <label class="radio">
-            <input type="radio" name="mentorBool" value="false" id = "radio2">Mentee</label>
-            
-            <fieldset>Tell us about you
-                <input type="text" id="about" name="about" id = "about"><br>
-            </fieldset>
+          <div class="field is-small">
+            <label class="label">Zip Code</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input" type="text" placeholder="Zip Code" name="zipcode" id ="zipcode" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-home"></i>
+              </span>
+            </div>
+          </div>
 
-            <button type="submit" id="register-button">Register</button>
-        </div> 
-  
-        <div class="container" style="background-color:#f1f1f1"> 
-            <button type="button" class="cancelbtn">Cancel</button> 
-            <!-- <span class="psw">Forgot <a href="#">password?</a></span>  -->
-        </div> 
+          <div class="field">
+            <div class="control">
+              <label class="label">Type</label>
+              <label class="radio">
+                <input type="radio" name="mentorBool" value="true" id = "radio1" required>
+                Mentor
+              </label>
+              <label class="radio">
+                <input type="radio" name="mentorBool" value="false" id = "radio2" required>
+                Mentee
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Tell us about yourself..</label>
+            <div class="control">
+              <textarea class="textarea" type="text" id="about" name="about" placeholder="Please fill this out..."></textarea>
+            </div>
+          </div>
+
+
+          <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-primary" type="submit" id="register-button">Submit</button>
+            </div>
+            <div class="control">
+              <button class="button is-link is-light" type="reset" id="cancel-button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </section>
     </form> 
   
 </body> 
 <script type = "module"></script>
-  
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+    // Get all "navbar-burger" elements
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+    // Check if there are any navbar burgers
+    if ($navbarBurgers.length > 0) {
+
+    // Add a click event on each of them
+    $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+      // Get the target from the "data-target" attribute
+      const target = el.dataset.target;
+      const $target = document.getElementById(target);
+      // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+      el.classList.toggle('is-active');
+      $target.classList.toggle('is-active');
+
+    });
+  });
+}
+
+});
+</script>
 </html> 
