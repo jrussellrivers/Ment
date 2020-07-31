@@ -1,6 +1,7 @@
 //To make your app.js look cleaner use this pattern
 // import checkIsLoggedIn from 'public/js/checkIsLoggedIn.js'
 // const db = require('./app')
+
 const passport = require('passport')
 const formidable = require("formidable");
 const Strategy = require('passport-local').Strategy
@@ -10,22 +11,15 @@ const checkIfExist = require('./public/js/checkIfExist.js')
 const createUser = require('./public/js/createUser.js')
 const createProfile = require('./public/js/createProfile.js')
 const getPhoto = require('./public/js/getPhoto.js')
-<<<<<<< HEAD
-const findMents = require('./public/js/findMents.js')
-=======
->>>>>>> origin/master
 const findMentsPic = require('./public/js/findMentsPic.js')
 const checkChatRoom = require('./public/js/checkChatRoom.js')
 const renderChatRoom = require('./public/js/renderChatRoom.js')
 const makeMessage = require('./public/js/makeMessage.js')
 const getUrl = require('./public/js/getUrl.js')
-<<<<<<< HEAD
-=======
 const makeConnection = require('./public/js/makeConnection.js')
 const checkLoggedUser = require('./public/js/checkLoggedUser.js')
 const returnUsername = require('./public/js/returnUsername')
 const renderConnections = require('./public/js/renderConnections.js')
->>>>>>> origin/master
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
@@ -83,29 +77,12 @@ const apiRoutes = (app, db)=>{
         // createProfile(req.params.id,db)
         let userProfile = await createProfile(req.params.id, db)
         // this can be declared elsewhere...
-<<<<<<< HEAD
         let picture = await getPhoto(req.params.id, db)
-        const showMenteeProfile = async () => {
+        const showMenteeProfile = async (connections) => {
             res.render("mentee_profile", {
                 locals: {
                 user: userProfile || {type:"N/A",username:"N/A"},
-                picture: picture,
-                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
-                }
-            })
-        }
-        const showMentorProfile = async () => {
-            res.render("mentor_profile", {
-                locals: {
-                user: userProfile || {type:"N/A",username:"N/A"},
-                picture: picture,
-                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
-=======
-        const showMenteeProfile = (connections) => {
-            res.render("mentee_profile", {
-                locals: {
-                user: userProfile || {type:"N/A",username:"N/A"},
-                // chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>',
+                picture: `<img src="/profile_images/${picture}">`,
                 chatlink:`<form action="/chat/${userProfile.id}" method="get">
                                 <button type="submit">Chat with ${userProfile.username}</button>
                             </form>`,
@@ -116,11 +93,12 @@ const apiRoutes = (app, db)=>{
                 }
             })
         }
-        const showMentorProfile = (connections) => {
+        
+        const showMentorProfile = async (connections) => {
             res.render("mentor_profile", {
                 locals: {
                 user: userProfile || {type:"N/A",username:"N/A"},
-                // chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>',
+                picture: `<img src="/profile_images/${picture}">`,
                 chatlink:`<form action="/chat/${userProfile.id}" method="get">
                                 <button type="submit">Chat with ${userProfile.username}</button>
                             </form>`,
@@ -128,26 +106,10 @@ const apiRoutes = (app, db)=>{
                                     <button type="submit">Connect with ${userProfile.username}</button>
                                 </form>`,
                 connectionslist: connections
->>>>>>> origin/master
                 }
             })
         }
-
-        // userProfile.type == 'T' ? showMenteeProfile() : showMentorProfile()
         if (userProfile.mentor == false) {
-<<<<<<< HEAD
-            showMenteeProfile();
-          } else if (userProfile.mentor == true) {
-            showMentorProfile();
-          } else {
-            res.redirect('/');
-          }
-    })
-    var new_cards = undefined
-    app.get(`/lobby`, checkIsLoggedIn, (req,res)=> {
-        // show boilerplate lobby first which includes a post form for the search.
-
-=======
             let connections = await renderConnections(db, userProfile)
             showMenteeProfile(connections);
         } else if (userProfile.mentor == true) {
@@ -157,9 +119,8 @@ const apiRoutes = (app, db)=>{
         res.redirect('/');
         }
     })
-    var new_cards = undefined
+    var new_cards = undefined;
     app.get(`/lobby`, checkIsLoggedIn, (req,res)=> {
->>>>>>> origin/master
         if (new_cards == undefined){
             new_cards = ''
             res.render("lobby", {
@@ -187,44 +148,32 @@ const apiRoutes = (app, db)=>{
         res.redirect('/lobby')
     })
 
-    // change
+    
     app.get('/login', (req,res)=>res.sendFile(__dirname + '/public/html/login.html'))
 
 
-    // ternary for mentee or mentor, routes to user specific profile
+    
     app.post('/login', passport.authenticate('local'), (req,res)=>{
         res.redirect(`/user/${req.user.id}`)
     })
-    // this is correct.
+    
     app.get('/register', (req,res)=>res.sendFile(__dirname + '/public/html/register.html'))
 
-    // this is correct.
+
     app.post('/register', checkIfExist, createUser, (req,res)=>{
         res.redirect('/login')
     })
-    // look into how to implement this
+    
     app.get('/logout', (req,res)=>{
         req.logout()
         res.redirect('/login')
     })
 
-<<<<<<< HEAD
-    // app.get(`/chat/:id`, async (req, res)=>{
-    //     let sender = req.user
-    //     let recipient_id = req.params.id
-    //     let room_id = await checkChatRoom(sender, recipient_id, db)
-    //     console.log(room_id)
-    //     if (room_id == false){res.redirect(`/user/${req.params.id}`)}
-    //     else{res.redirect(`/chat/${req.params.id}/${room_id}`)}
-    // })
-=======
->>>>>>> origin/master
 
     app.get('/photos/:id', async (req, res)=> {
         let pic = await getPhoto(req.params.id, db)
         console.log(pic, "167")
         // for now
-        pic = 'default.jpg'
         res.sendFile(__dirname + '/public/profile_images/'+pic)
     })
 
@@ -251,7 +200,7 @@ const apiRoutes = (app, db)=>{
         //console.log('Uploaded file', name, file);
         // new_path = file.path.split().join("")
         // new_path = file.path.replace(/\s/g, '')
-        console.log("187", file.path)
+        console.log("203", file.path)
         form.profile_image = file.path.replace(__dirname + "/public", "");
         console.log(form.profile_image)
         })
@@ -261,25 +210,20 @@ const apiRoutes = (app, db)=>{
             
         //Now i can save the form to the database
             let pid = req.user.id
-            let newimageaddress= '<img src="' + form.profile_image + '"'
-            let checkphoto = await db.one(`SELECT imgname FROM images WHERE user_id ='${pid}'`)
-            console.log(checkphoto.imgname, "199")
-
-            if (checkphoto.imgname != '<img src="/profile_images/default.jpg">')
+            let cut = form.profile_image.indexOf('s')+2
+            let newimageaddress= form.profile_image.substring(cut)
+            let oldImage = await db.one(`SELECT imgname FROM images WHERE user_id ='${pid}'`)
+            console.log(oldImage.imgname, "215")
+            let file = oldImage.imgname
+            if (file != 'default.jpg')
             {
-                console.log(form.profile_image, "203")
-                console.log(checkphoto.imgname, "204")
-                let file = checkphoto.imgname.replace('<img src="', '').replace('">', '').replace('"', '')
-                console.log(file, "206")
-                if(fs.existsSync('./public' + file))
-                {fs.unlinkSync('./public' + file)}
+                if(fs.existsSync('./public/profile_images/' + file))
+                {fs.unlinkSync('./public/profile_images/' + file)}
                 // if(fs.existsSync('./public' + form.profile_image))
                 // {fs.unlinkSync('./public' + form.profile_image)}
             }
-            console.log(newimageaddress)
             let result = await db.none(`UPDATE images set imgname = '${newimageaddress}' where user_id = '${pid}'`)
             res.json({"url": `/user/${req.user.id}`})
-            // res.send(result)
             });
     });
     
@@ -291,21 +235,14 @@ const apiRoutes = (app, db)=>{
         else{res.redirect(`/chat/room/${room_id}`)}
     })
     
-<<<<<<< HEAD
-    app.get('/chat/room/:id', checkIsLoggedIn, async (req,res) =>{
-=======
     app.get('/chat/room/:id', async (req,res) =>{
         let return_id = await checkLoggedUser(db, req.user.id, req.params.id)
->>>>>>> origin/master
         let messages = await renderChatRoom(db, req.params.id)
         let return_username = await returnUsername(db, return_id)
         res.render("chat_room", {
             locals: {
-<<<<<<< HEAD
-=======
             return_link:'href="/user/' + return_id + '"',
             return_username: return_username,
->>>>>>> origin/master
             room_id:req.params.id,
             messages: messages,
             actionstring:'action="/chat/room/' + req.params.id + '"'
@@ -329,8 +266,3 @@ const apiRoutes = (app, db)=>{
     })
 };
 module.exports = apiRoutes;
-
-//on app.js
-//require("./api-routes")(app); //will load the routes
-
-//you could alternatively use express.router if you want to do the research. should do this
