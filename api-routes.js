@@ -128,11 +128,14 @@ const apiRoutes = (app, db)=>{
     var new_cards = undefined
     app.get(`/lobby`, checkIsLoggedIn, (req,res)=> {
 <<<<<<< HEAD
+<<<<<<< HEAD
         // show boilerplate lobby first which includes a post form for the search.
 
 =======
         console.log(new_cards)
 >>>>>>> origin/master
+=======
+>>>>>>> 9cef26e97396c4c6c8e780ae7b7e9fd487460deb
         if (new_cards == undefined){
             new_cards = ''
             res.render("lobby", {
@@ -182,6 +185,7 @@ const apiRoutes = (app, db)=>{
     })
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     // app.get(`/chat/:id`, async (req, res)=>{
     //     let sender = req.user
     //     let recipient_id = req.params.id
@@ -190,6 +194,8 @@ const apiRoutes = (app, db)=>{
     //     if (room_id == false){res.redirect(`/user/${req.params.id}`)}
     //     else{res.redirect(`/chat/${req.params.id}/${room_id}`)}
     // })
+=======
+>>>>>>> 9cef26e97396c4c6c8e780ae7b7e9fd487460deb
 
     app.get('/photos/:id', async (req, res)=> {
         let pic = await getPhoto(req.params.id, db)
