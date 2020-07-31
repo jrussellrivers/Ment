@@ -7,12 +7,15 @@ const checkIfExist = require('./public/js/checkIfExist.js')
 const createUser = require('./public/js/createUser.js')
 const createProfile = require('./public/js/createProfile.js')
 const getPhoto = require('./public/js/getPhoto.js')
-const findMents = require('./public/js/findMents.js')
 const findMentsPic = require('./public/js/findMentsPic.js')
 const checkChatRoom = require('./public/js/checkChatRoom.js')
 const renderChatRoom = require('./public/js/renderChatRoom.js')
 const makeMessage = require('./public/js/makeMessage.js')
 const getUrl = require('./public/js/getUrl.js')
+const makeConnection = require('./public/js/makeConnection.js')
+const checkLoggedUser = require('./public/js/checkLoggedUser.js')
+const returnUsername = require('./public/js/returnUsername')
+const renderConnections = require('./public/js/renderConnections.js')
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
@@ -62,65 +65,42 @@ const apiRoutes = (app, db)=>{
         // createProfile(req.params.id,db)
         let userProfile = await createProfile(req.params.id, db)
         // this can be declared elsewhere...
-        let picture = await getPhoto(req.params.id, db)
-        const showMenteeProfile = async () => {
+        const showMenteeProfile = (connections) => {
             res.render("mentee_profile", {
                 locals: {
                 user: userProfile || {type:"N/A",username:"N/A"},
-                picture: picture,
-                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
+                // chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>',
+                chatlink:`<form action="/chat/${userProfile.id}" method="get">
+                                <button type="submit">Chat with ${userProfile.username}</button>
+                            </form>`,
+                connectbutton: `<form action="/user/${req.params.id}/connect" method="get">
+                                    <button type="submit">Connect with ${userProfile.username}</button>
+                                </form>`,
+                connectionslist: connections
                 }
             })
         }
-        const showMentorProfile = async () => {
+        const showMentorProfile = (connections) => {
             res.render("mentor_profile", {
                 locals: {
                 user: userProfile || {type:"N/A",username:"N/A"},
-                picture: picture,
-                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
-                }
-            })
-        }
-        const showOr2EeProfile = async () => {
-            res.render("mentorToMentee", {
-                locals: {
-                user: userProfile || {type:"N/A",username:"N/A"},
-                picture: picture,
-                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
-                }
-            })
-        }
-        const showEe2OrProfile = async () => {
-            res.render("menteeToMentor", {
-                locals: {
-                user: userProfile || {type:"N/A",username:"N/A"},
-                picture: picture,
-                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
-                }
-            })
-        }
-        const showEe2EeProfile = async () => {
-            res.render("mentorToMentee", {
-                locals: {
-                user: userProfile || {type:"N/A",username:"N/A"},
-                picture: picture,
-                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
-                }
-            })
-        }
-        const showOr2OrProfile = async () => {
-            res.render("menteeToMentor", {
-                locals: {
-                user: userProfile || {type:"N/A",username:"N/A"},
-                picture: picture,
-                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
+                // chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>',
+                chatlink:`<form action="/chat/${userProfile.id}" method="get">
+                                <button type="submit">Chat with ${userProfile.username}</button>
+                            </form>`,
+                connectbutton: `<form action="/user/${req.params.id}/connect" method="get">
+                                    <button type="submit">Connect with ${userProfile.username}</button>
+                                </form>`,
+                connectionslist: connections
                 }
             })
         }
         if (userProfile.mentor == false) {
-            showMenteeProfile();
+            let connections = await renderConnections(db, userProfile)
+            showMenteeProfile(connections);
         } else if (userProfile.mentor == true) {
-        showMentorProfile();
+            let connections = await renderConnections(db, userProfile)
+            showMentorProfile(connections);
         } else {
         res.redirect('/');
         }
@@ -248,11 +228,13 @@ const apiRoutes = (app, db)=>{
     })
     
     app.get('/chat/room/:id', async (req,res) =>{
-        let return_message = await checkLoggedUser(db, req.user.id, req.params.id)
+        let return_id = await checkLoggedUser(db, req.user.id, req.params.id)
         let messages = await renderChatRoom(db, req.params.id)
+        let return_username = await returnUsername(db, return_id)
         res.render("chat_room", {
             locals: {
-            return_link:'href="' + return_message + '"',
+            return_link:'href="/user/' + return_id + '"',
+            return_username: return_username,
             room_id:req.params.id,
             messages: messages,
             actionstring:'action="/chat/room/' + req.params.id + '"'
@@ -263,6 +245,16 @@ const apiRoutes = (app, db)=>{
     app.post('/chat/room/:id', checkIsLoggedIn, async (req,res) =>{
         await makeMessage(db, req.body.messageinput, req.user.username, req.params.id)
         res.redirect(`/chat/room/${req.params.id}`)
+    })
+
+    app.get('/user/:id/connect', async (req,res)=>{
+        let connect = await makeConnection(db, req.params.id, req.user)
+        if (connect == false){
+            console.log('Connection already made')
+        } else{
+            console.log('Connection made succesfully')
+        }
+        res.redirect(`/user/${req.params.id}`)
     })
 };
 module.exports = apiRoutes;
