@@ -11,6 +11,7 @@ const createUser = require('./public/js/createUser.js')
 const createProfile = require('./public/js/createProfile.js')
 const getPhoto = require('./public/js/getPhoto.js')
 const findMents = require('./public/js/findMents.js')
+const findMentsPic = require('./public/js/findMentsPic.js')
 const checkChatRoom = require('./public/js/checkChatRoom.js')
 const renderChatRoom = require('./public/js/renderChatRoom.js')
 const makeMessage = require('./public/js/makeMessage.js')
@@ -126,7 +127,7 @@ const apiRoutes = (app, db)=>{
     app.post(`/lobby`, checkIsLoggedIn, async (req, res)=> {
         let category = req.body.search
         let searchQ = req.body.SearchQuery
-        let result = await findMents(req.user, category, searchQ, db);
+        let result = await findMentsPic(req.user, category, searchQ, db);
         new_cards = result
         res.redirect('/lobby')
     
