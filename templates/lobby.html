@@ -1,25 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lobby</title>
-</head>
-<body>
-    <!-- <form action="/lobby" method="POST"> 
-        <div class="container"> Search for a Ment...
-            <label><b>Search by name</b></label> 
-            <input type="text" placeholder="Enter name" name="usernameFind" id = "usernameFind"> 
-
-            <label><b>Search by email</b></label> 
-            <input type="text" placeholder="Enter email" name="emailFind" id = "emailFind"> 
-  
-            <label><b>Search by location </b></label> 
-            <input type="text" placeholder="Enter Zipode" name="zipcodeFind" id = "zipcodeFind"> 
-
-            <button type="submit" id="search-button">Search</button>
-        </div> 
-    </form>  -->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lobby v2</title>
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.2/css/bulma.min.css" />
+    <script src="https://kit.fontawesome.com/7dc3015a44.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link rel="stylesheet" href="../css/cards.css">
+  </head>
+  <body>
+    <!-- START NAV -->
+    <nav class="navbar">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="#">
+            <img src="https://cdn.emk.dev/templates/bulma-logo-light.png" alt="Logo">
+          </a>
+          <span class="navbar-burger burger" data-target="navbarMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </div>
+        <div id="navbarMenu" class="navbar-menu">
+          <div class="navbar-end">
+            <a class="navbar-item is-active">
+              Home
+            </a>
+            <a class="navbar-item">
+              Examples
+            </a>
+            <a class="navbar-item">
+              Features
+            </a>
+            <a class="navbar-item">
+              Team
+            </a>
+            <a class="navbar-item">
+              Archives
+            </a>
+            <a class="navbar-item">
+              Help
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- END NAV -->
     <form action="/lobby" method="POST"> 
         <label><b>Search for a Ment</b></label> 
         <select id="search" name="search">
@@ -30,8 +59,6 @@
         </select>
         <input type="text" placeholder="Enter Search" name="SearchQuery"> 
     </form>
-   <div>
         ${cards}
-   </div>
-</body>
+      </body>
 </html>

@@ -13,3 +13,38 @@ body {
     display: block;
     margin: 8px;
 }
+.container-cards {
+    width: 80vw;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+element.style {
+    background-color: rgb(233, 1, 160);
+    background-image: url(https://i.webthing.co/500x/https://flexitwith.s3.us-east-2.amazonaws.com/media/bkgd_katerina.png);
+}
+
+.card-class-fund.card-class-bkgd {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50%;
+}
+
+.card-class-fund-sm {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+    height: 300px;
+}
+.card-class-fund {
+    width: 100vw;
+    overflow: hidden;
+    display: inline-block;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: "Harmonia Sans","Avenir Next",Helvetica,sans-serif;
+}
+
+

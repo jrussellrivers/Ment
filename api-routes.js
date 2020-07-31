@@ -1,14 +1,18 @@
 const passport = require('passport')
 const formidable = require("formidable");
 const Strategy = require('passport-local').Strategy
+const fs = require('fs')
 const checkIsLoggedIn = require('./public/js/checkIsLoggedIn.js')
 const checkIfExist = require('./public/js/checkIfExist.js')
 const createUser = require('./public/js/createUser.js')
 const createProfile = require('./public/js/createProfile.js')
+const getPhoto = require('./public/js/getPhoto.js')
 const findMents = require('./public/js/findMents.js')
+const findMentsPic = require('./public/js/findMentsPic.js')
 const checkChatRoom = require('./public/js/checkChatRoom.js')
 const renderChatRoom = require('./public/js/renderChatRoom.js')
 const makeMessage = require('./public/js/makeMessage.js')
+const getUrl = require('./public/js/getUrl.js')
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
@@ -58,18 +62,57 @@ const apiRoutes = (app, db)=>{
         // createProfile(req.params.id,db)
         let userProfile = await createProfile(req.params.id, db)
         // this can be declared elsewhere...
-        const showMenteeProfile = () => {
+        let picture = await getPhoto(req.params.id, db)
+        const showMenteeProfile = async () => {
             res.render("mentee_profile", {
                 locals: {
                 user: userProfile || {type:"N/A",username:"N/A"},
+                picture: picture,
                 chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
                 }
             })
         }
-        const showMentorProfile = () => {
+        const showMentorProfile = async () => {
             res.render("mentor_profile", {
                 locals: {
                 user: userProfile || {type:"N/A",username:"N/A"},
+                picture: picture,
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
+                }
+            })
+        }
+        const showOr2EeProfile = async () => {
+            res.render("mentorToMentee", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                picture: picture,
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
+                }
+            })
+        }
+        const showEe2OrProfile = async () => {
+            res.render("menteeToMentor", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                picture: picture,
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
+                }
+            })
+        }
+        const showEe2EeProfile = async () => {
+            res.render("mentorToMentee", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                picture: picture,
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
+                }
+            })
+        }
+        const showOr2OrProfile = async () => {
+            res.render("menteeToMentor", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                picture: picture,
                 chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
                 }
             })
@@ -84,7 +127,6 @@ const apiRoutes = (app, db)=>{
     })
     var new_cards = undefined
     app.get(`/lobby`, checkIsLoggedIn, (req,res)=> {
-        console.log(new_cards)
         if (new_cards == undefined){
             new_cards = ''
             res.render("lobby", {
@@ -106,10 +148,10 @@ const apiRoutes = (app, db)=>{
     app.post(`/lobby`, checkIsLoggedIn, async (req, res)=> {
         let category = req.body.search
         let searchQ = req.body.SearchQuery
-        let result = await findMents(req.user, category, searchQ, db);
+        let url = getUrl(req)
+        let result = await findMentsPic(req.user, category, searchQ, db, url);
         new_cards = result
         res.redirect('/lobby')
-    
     })
 
     
@@ -133,36 +175,68 @@ const apiRoutes = (app, db)=>{
         res.redirect('/login')
     })
 
-    app.post("/image-uploaded", async (req, res) => {
-        let form = {};
-        //this will take all of the fields (including images) and put the value in the form object above
-        new formidable.IncomingForm()
-            .parse(req)
-            .on("field", (name, field) => {
-            form[name] = field;
-            })
-            .on("fileBegin", (name, file) => {
-            //sets the path to save the image
-            file.path =
-                __dirname +
-                "/public/profile_images/" +
-                new Date().getTime() +
-                file.name;
-            })
-            .on("file", (name, file) => {
-            //console.log('Uploaded file', name, file);
-            form.profile_image = file.path.replace(__dirname + "/public", "");
-            })
 
-            .on ("end", async () => {
+    app.get('/photos/:id', async (req, res)=> {
+        let pic = await getPhoto(req.params.id, db)
+        console.log(pic, "167")
+        // for now
+        pic = 'default.jpg'
+        res.sendFile(__dirname + '/public/profile_images/'+pic)
+    })
+
+
+    app.post("/image-uploaded", checkIsLoggedIn, async (req, res) => {
+    let form = {};
+
+    //this will take all of the fields (including images) and put the value in the form object above
+    new formidable.IncomingForm()
+        .parse(req)
+        .on("field", (name, field) => {
+        form[name] = field;
+        })
+        .on("fileBegin", (name, file) => {
+        //sets the path to save the image
+        let filepath =
+            __dirname +
+            "/public/profile_images/" +
+            new Date().getTime() +
+            file.name;
+            file.path = filepath.replace(/\s/g, '')
+        })
+        .on("file", (name, file) => {
+        //console.log('Uploaded file', name, file);
+        // new_path = file.path.split().join("")
+        // new_path = file.path.replace(/\s/g, '')
+        console.log("187", file.path)
+        form.profile_image = file.path.replace(__dirname + "/public", "");
+        console.log(form.profile_image)
+        })
+
+        .on ("end", async () => {
             console.log("your photo is uploaded!");
             
-            //Now i can save the form to the database
-            let newimageaddress= '<img src="' + form.profile_image + '" alt="profile pic">'
-            let results = await db.none("insert into images (user_id, imgname) values ($1, $2)", [req.user.id, newimageaddress])
-            console.log(results)
+        //Now i can save the form to the database
+            let pid = req.user.id
+            let newimageaddress= '<img src="' + form.profile_image + '"'
+            let checkphoto = await db.one(`SELECT imgname FROM images WHERE user_id ='${pid}'`)
+            console.log(checkphoto.imgname, "199")
+
+            if (checkphoto.imgname != '<img src="/profile_images/default.jpg">')
+            {
+                console.log(form.profile_image, "203")
+                console.log(checkphoto.imgname, "204")
+                let file = checkphoto.imgname.replace('<img src="', '').replace('">', '').replace('"', '')
+                console.log(file, "206")
+                if(fs.existsSync('./public' + file))
+                {fs.unlinkSync('./public' + file)}
+                // if(fs.existsSync('./public' + form.profile_image))
+                // {fs.unlinkSync('./public' + form.profile_image)}
+            }
+            console.log(newimageaddress)
+            let result = await db.none(`UPDATE images set imgname = '${newimageaddress}' where user_id = '${pid}'`)
             res.json({"url": `/user/${req.user.id}`})
-            });  
+            // res.send(result)
+            });
     });
     
     app.get('/chat/:id', checkIsLoggedIn, async (req, res)=>{

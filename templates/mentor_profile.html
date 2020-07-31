@@ -16,6 +16,7 @@
       </div>
     <h1>
         Welcome ${user.username}!
+        ${picture}
     </h1>
 
     <div>
@@ -24,9 +25,9 @@
     </div>
 
     <div>
-        Let's find you a mentor! 
-        <div>Mentors are great. Get one.</div>
-        <button>Find mentor</button>
+        <form method="get" action="/lobby">
+            <button type="submit">Find Mentee</button>
+        </form>
         
         ${chatlink}
     </div>
