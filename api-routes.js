@@ -92,6 +92,42 @@ const apiRoutes = (app, db)=>{
                 }
             })
         }
+        const showOr2EeProfile = async () => {
+            res.render("mentorToMentee", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                picture: picture,
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
+                }
+            })
+        }
+        const showEe2OrProfile = async () => {
+            res.render("menteeToMentor", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                picture: picture,
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
+                }
+            })
+        }
+        const showEe2EeProfile = async () => {
+            res.render("mentorToMentee", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                picture: picture,
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
+                }
+            })
+        }
+        const showOr2OrProfile = async () => {
+            res.render("menteeToMentor", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                picture: picture,
+                chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
+                }
+            })
+        }
         // userProfile.type == 'T' ? showMenteeProfile() : showMentorProfile()
         if (userProfile.mentor == false) {
             showMenteeProfile();
