@@ -1,62 +1,92 @@
-const findMents = async (user, category, value, db) => {
+const findMents = async (user, category, value, db, url) => {
     // first determine if mentee or mentor
     let notMentor = !user.mentor
     // then query database for all mentees or mentors whose information matches the query
-    // let ments = await db.all(`SELECT * FROM users WHERE mentor='${user.mentor}' and name ='${name}' and email ='${email}' and zipcode ='${zipcode}'`)
-    // let ments = await db.any(`SELECT * FROM users WHERE mentor='${user.mentor}' and ${category}='${value}'`)
     let ments = await db.any(`SELECT * FROM users WHERE mentor='${notMentor}' and ${category}='${value}'`)
-    const getPhoto = async (ment) => {
-        let pic = await db.one(`SELECT * FROM images WHERE user_id='${ment.id}'`)
-        console.log(pic)
-        return pic
+    // console.log(ments, "8") 
+    const getPhoto = async (id) => {
+        let result = await db.oneOrNone(`SELECT * FROM images WHERE user_id='${id}'`)
+        return (result == null ? '../profile_images/default.jpg' : result)
     }
-    const createCards = async (ments) => {
+    var pics = []
+    const getPhotos = async (ments) => {
+        for(i=0;i<ments.length;i++){
+            let pic = await getPhoto(ments[i].id)
+            pics.push(pic.imgname)
+        }
+    }
+    getPhotos(ments)
+    console.log(pics, "20")
     // then generate hmtl cards for each user result. join at the end. Potentially sort them.
-        let new_html = ''
-        ments.map(async (ment, idx)=>{
-            let pic = await getPhoto(ment)
-            console.log(pic, "18")
-            // if(pic[pic.length -1]!= '>'){pic[pic.length -1]!= '>'} // add a closing arrow
-            let new_card = 
+    let new_html = ''
+    ments.map((ment, idx)=>{
+        let pic = pics[idx]
+        // remove this once picture files are clean
+        pic = 'default.jpg'
+        http://localhost:5434/lobby/photos/ment.id
+        pic_path = url + '/../photos/' + ment.id
+        // if(pic[pic.length -1]!= '>'){pic[pic.length -1]!= '>'} // add a closing arrow
+        let new_card = 
                 `
-                <div class="card">
-                    <div class="card-content">
-                        <div class="media">
-                        <div class="media-left">
-                            <figure class="image is-24x24">
-                            ${pic.imgname}
-                            </figure>
-                        </div>
-                        <div class="media-content">
-                            <p class="title is-4">${ment.username}</p>
-                            <p class="subtitle is-6">${ment.email}</p>
-                            <p class="subtitle is-6">${ment.zipcode}</p>
-                        </div>
-                        </div>
-
-                        <div class="content">
-                        ${ment.about}
-                        <a href="/user/${ment.id}">Ment Profile</a>
-                        <br>
-                        </div>
+                <div class="container">
+        <div class="section">
+            <div class="columns">
+            <div class="column has-text-centered">
+                <h1 class="title" style="color: ghostwhite;">${ment.username}</h1><br>
+            </div>
+            </div>
+            <div id="app" class="row columns is-multiline">
+            <div v-for="card in cardData" key="card.id" class="column is-4">
+                <div class="card large">
+                <div class="card-image is-16by9">
+                    <figure class="image">
+                    <img :src=${pic_path} alt="Card Avatar">
+                    url('/img/pic.png')
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-48x48">
+                        <img :src="http://i64.tinypic.com/29gedzq.png" alt="Image">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <p class="title is-4 no-padding">${ment.username}</p>
+                        <p>
+                        <p class="subtitle is-6">
+                        <li><a href="/user/${ment.id}">${ment.username}'s profile</a>
+                        </p>
+                    </div>
+                    </div>
+                    <div class="content">
+                    ${ment.about}
+                    </div>
+                    <div class="content">
+                    Contact me at ${ment.email}
                     </div>
                 </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+        <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+            <div class="soc">
+                <a href="#"><i class="fa fa-github-alt fa-lg" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-youtube fa-lg" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a>
+            </div>
+            </div>
+        </div>
+        </footer>
                 `
-                new_html = new_html + new_card
-                console.log(new_card)
-        }).sort((a,b)=>a.username-b.username).join("")
-        return new_html
-    }
-    // then back in the route itself, render the lobby template with the html variable from the above ste
-    let output = await createCards(ments)
-    return output
+    new_html = new_html + new_card
+    }).join("")
+    return new_html
 }
 
 module.exports = findMents
-
-
-{/* <div class="card-image">
-<figure class="image is-4by3">
-<img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-</figure>
-</div> */}

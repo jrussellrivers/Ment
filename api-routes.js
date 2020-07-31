@@ -15,6 +15,7 @@ const findMentsPic = require('./public/js/findMentsPic.js')
 const checkChatRoom = require('./public/js/checkChatRoom.js')
 const renderChatRoom = require('./public/js/renderChatRoom.js')
 const makeMessage = require('./public/js/makeMessage.js')
+const getUrl = require('./public/js/getUrl.js')
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
@@ -103,9 +104,7 @@ const apiRoutes = (app, db)=>{
     var new_cards = undefined
     app.get(`/lobby`, checkIsLoggedIn, (req,res)=> {
         // show boilerplate lobby first which includes a post form for the search.
-        // res.sendFile(__dirname + '/public/html/lobby.html')
-        // try {
-        console.log(new_cards)
+
         if (new_cards == undefined){
             new_cards = ''
             res.render("lobby", {
@@ -127,10 +126,10 @@ const apiRoutes = (app, db)=>{
     app.post(`/lobby`, checkIsLoggedIn, async (req, res)=> {
         let category = req.body.search
         let searchQ = req.body.SearchQuery
-        let result = await findMentsPic(req.user, category, searchQ, db);
+        let url = getUrl(req)
+        let result = await findMentsPic(req.user, category, searchQ, db, url);
         new_cards = result
         res.redirect('/lobby')
-    
     })
 
     // change
@@ -162,6 +161,11 @@ const apiRoutes = (app, db)=>{
     //     if (room_id == false){res.redirect(`/user/${req.params.id}`)}
     //     else{res.redirect(`/chat/${req.params.id}/${room_id}`)}
     // })
+    app.get('/photos/:id', async (req, res)=> {
+        let pic = await getPhoto(req.params.id, db)
+        res.sendFile(__dirname + '/public/profile_images/'+pic.imgname)
+    })
+
 
     app.post("/image-uploaded", checkIsLoggedIn, async (req, res) => {
     let form = {};

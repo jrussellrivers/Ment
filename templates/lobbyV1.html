@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby</title>
+</head>
+<body>
+    <form action="/lobby" method="POST"> 
+        <label><b>Search for a Ment</b></label> 
+        <select id="search" name="search">
+            <option value="username">Username</option>
+            <option value="password">Email</option>
+            <option value="zipcode">Zipcode</option>
+            <!-- <option value="audi">Audi</option> -->
+        </select>
+        <input type="text" placeholder="Enter Search" name="SearchQuery"> 
+    </form>
+   <div>
+        ${cards}
+   </div>
+</body>
+</html>
