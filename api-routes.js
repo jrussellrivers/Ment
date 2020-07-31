@@ -161,9 +161,13 @@ const apiRoutes = (app, db)=>{
     //     if (room_id == false){res.redirect(`/user/${req.params.id}`)}
     //     else{res.redirect(`/chat/${req.params.id}/${room_id}`)}
     // })
+
     app.get('/photos/:id', async (req, res)=> {
         let pic = await getPhoto(req.params.id, db)
-        res.sendFile(__dirname + '/public/profile_images/'+pic.imgname)
+        console.log(pic, "167")
+        // for now
+        pic = 'default.jpg'
+        res.sendFile(__dirname + '/public/profile_images/'+pic)
     })
 
 

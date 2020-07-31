@@ -23,11 +23,12 @@ const findMents = async (user, category, value, db, url) => {
         let pic = pics[idx]
         // remove this once picture files are clean
         pic = 'default.jpg'
-        http://localhost:5434/lobby/photos/ment.id
-        pic_path = url + '/../photos/' + ment.id
+        pic_path = url + '/photos/' + ment.id
         // if(pic[pic.length -1]!= '>'){pic[pic.length -1]!= '>'} // add a closing arrow
         let new_card = 
                 `
+                <form action="/user/${ment.id}" method="get">
+                <button type="submit" class = "cardSubmit">
                 <div class="container">
         <div class="section">
             <div class="columns">
@@ -40,17 +41,11 @@ const findMents = async (user, category, value, db, url) => {
                 <div class="card large">
                 <div class="card-image is-16by9">
                     <figure class="image">
-                    <img :src=${pic_path} alt="Card Avatar">
-                    url('/img/pic.png')
+                    <img src=${pic_path} alt="Card Avatar">
                     </figure>
                 </div>
                 <div class="card-content">
                     <div class="media">
-                    <div class="media-left">
-                        <figure class="image is-48x48">
-                        <img :src="http://i64.tinypic.com/29gedzq.png" alt="Image">
-                        </figure>
-                    </div>
                     <div class="media-content">
                         <p class="title is-4 no-padding">${ment.username}</p>
                         <p>
@@ -71,6 +66,8 @@ const findMents = async (user, category, value, db, url) => {
             </div>
         </div>
         </div>
+        </button>
+        </form>
         <footer class="footer">
         <div class="container">
             <div class="content has-text-centered">
