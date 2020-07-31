@@ -10,12 +10,22 @@ const checkIfExist = require('./public/js/checkIfExist.js')
 const createUser = require('./public/js/createUser.js')
 const createProfile = require('./public/js/createProfile.js')
 const getPhoto = require('./public/js/getPhoto.js')
+<<<<<<< HEAD
 const findMents = require('./public/js/findMents.js')
+=======
+>>>>>>> origin/master
 const findMentsPic = require('./public/js/findMentsPic.js')
 const checkChatRoom = require('./public/js/checkChatRoom.js')
 const renderChatRoom = require('./public/js/renderChatRoom.js')
 const makeMessage = require('./public/js/makeMessage.js')
 const getUrl = require('./public/js/getUrl.js')
+<<<<<<< HEAD
+=======
+const makeConnection = require('./public/js/makeConnection.js')
+const checkLoggedUser = require('./public/js/checkLoggedUser.js')
+const returnUsername = require('./public/js/returnUsername')
+const renderConnections = require('./public/js/renderConnections.js')
+>>>>>>> origin/master
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
@@ -73,6 +83,7 @@ const apiRoutes = (app, db)=>{
         // createProfile(req.params.id,db)
         let userProfile = await createProfile(req.params.id, db)
         // this can be declared elsewhere...
+<<<<<<< HEAD
         let picture = await getPhoto(req.params.id, db)
         const showMenteeProfile = async () => {
             res.render("mentee_profile", {
@@ -89,12 +100,42 @@ const apiRoutes = (app, db)=>{
                 user: userProfile || {type:"N/A",username:"N/A"},
                 picture: picture,
                 chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>'
+=======
+        const showMenteeProfile = (connections) => {
+            res.render("mentee_profile", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                // chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>',
+                chatlink:`<form action="/chat/${userProfile.id}" method="get">
+                                <button type="submit">Chat with ${userProfile.username}</button>
+                            </form>`,
+                connectbutton: `<form action="/user/${req.params.id}/connect" method="get">
+                                    <button type="submit">Connect with ${userProfile.username}</button>
+                                </form>`,
+                connectionslist: connections
+                }
+            })
+        }
+        const showMentorProfile = (connections) => {
+            res.render("mentor_profile", {
+                locals: {
+                user: userProfile || {type:"N/A",username:"N/A"},
+                // chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>',
+                chatlink:`<form action="/chat/${userProfile.id}" method="get">
+                                <button type="submit">Chat with ${userProfile.username}</button>
+                            </form>`,
+                connectbutton: `<form action="/user/${req.params.id}/connect" method="get">
+                                    <button type="submit">Connect with ${userProfile.username}</button>
+                                </form>`,
+                connectionslist: connections
+>>>>>>> origin/master
                 }
             })
         }
 
         // userProfile.type == 'T' ? showMenteeProfile() : showMentorProfile()
         if (userProfile.mentor == false) {
+<<<<<<< HEAD
             showMenteeProfile();
           } else if (userProfile.mentor == true) {
             showMentorProfile();
@@ -106,6 +147,19 @@ const apiRoutes = (app, db)=>{
     app.get(`/lobby`, checkIsLoggedIn, (req,res)=> {
         // show boilerplate lobby first which includes a post form for the search.
 
+=======
+            let connections = await renderConnections(db, userProfile)
+            showMenteeProfile(connections);
+        } else if (userProfile.mentor == true) {
+            let connections = await renderConnections(db, userProfile)
+            showMentorProfile(connections);
+        } else {
+        res.redirect('/');
+        }
+    })
+    var new_cards = undefined
+    app.get(`/lobby`, checkIsLoggedIn, (req,res)=> {
+>>>>>>> origin/master
         if (new_cards == undefined){
             new_cards = ''
             res.render("lobby", {
@@ -154,6 +208,7 @@ const apiRoutes = (app, db)=>{
         res.redirect('/login')
     })
 
+<<<<<<< HEAD
     // app.get(`/chat/:id`, async (req, res)=>{
     //     let sender = req.user
     //     let recipient_id = req.params.id
@@ -162,6 +217,8 @@ const apiRoutes = (app, db)=>{
     //     if (room_id == false){res.redirect(`/user/${req.params.id}`)}
     //     else{res.redirect(`/chat/${req.params.id}/${room_id}`)}
     // })
+=======
+>>>>>>> origin/master
 
     app.get('/photos/:id', async (req, res)=> {
         let pic = await getPhoto(req.params.id, db)
@@ -234,10 +291,21 @@ const apiRoutes = (app, db)=>{
         else{res.redirect(`/chat/room/${room_id}`)}
     })
     
+<<<<<<< HEAD
     app.get('/chat/room/:id', checkIsLoggedIn, async (req,res) =>{
+=======
+    app.get('/chat/room/:id', async (req,res) =>{
+        let return_id = await checkLoggedUser(db, req.user.id, req.params.id)
+>>>>>>> origin/master
         let messages = await renderChatRoom(db, req.params.id)
+        let return_username = await returnUsername(db, return_id)
         res.render("chat_room", {
             locals: {
+<<<<<<< HEAD
+=======
+            return_link:'href="/user/' + return_id + '"',
+            return_username: return_username,
+>>>>>>> origin/master
             room_id:req.params.id,
             messages: messages,
             actionstring:'action="/chat/room/' + req.params.id + '"'
@@ -248,6 +316,16 @@ const apiRoutes = (app, db)=>{
     app.post('/chat/room/:id', checkIsLoggedIn, async (req,res) =>{
         await makeMessage(db, req.body.messageinput, req.user.username, req.params.id)
         res.redirect(`/chat/room/${req.params.id}`)
+    })
+
+    app.get('/user/:id/connect', async (req,res)=>{
+        let connect = await makeConnection(db, req.params.id, req.user)
+        if (connect == false){
+            console.log('Connection already made')
+        } else{
+            console.log('Connection made succesfully')
+        }
+        res.redirect(`/user/${req.params.id}`)
     })
 };
 module.exports = apiRoutes;
