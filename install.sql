@@ -31,4 +31,14 @@ CREATE TABLE connections (
     id SERIAL PRIMARY KEY,
     mentor_id INTEGER REFERENCES users (id),
     mentee_id INTEGER REFERENCES users (id)
-)
+);
+
+CREATE TABLE skills (
+    id SERIAL PRIMARY KEY,
+    pm BOOLEAN DEFAULT FALSE,
+    creative BOOLEAN DEFAULT FALSE,
+    ml BOOLEAN DEFAULT FALSE,
+    datascience BOOLEAN DEFAULT FALSE,
+    softwareengineering BOOLEAN DEFAULT FALSE,
+    webdev BOOLEAN DEFAULT FALSE
+);

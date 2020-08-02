@@ -20,6 +20,9 @@ const makeConnection = require('./public/js/makeConnection.js')
 const checkLoggedUser = require('./public/js/checkLoggedUser.js')
 const returnUsername = require('./public/js/returnUsername')
 const renderConnections = require('./public/js/renderConnections.js')
+const renderSkills = require('./public/js/renderSkills.js')
+const updateSkills = require('./public/js/updateSkills.js')
+
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
@@ -78,6 +81,7 @@ const apiRoutes = (app, db)=>{
         let userProfile = await createProfile(req.params.id, db)
         // this can be declared elsewhere...
         let picture = await getPhoto(req.params.id, db)
+        let skillCards = await renderSkills(req.params.id, db)
         const showMenteeProfile = async (connections) => {
             res.render("mentee_profile", {
                 locals: {
@@ -105,7 +109,9 @@ const apiRoutes = (app, db)=>{
                 connectbutton: `<form action="/user/${req.params.id}/connect" method="get">
                                     <button type="submit">Connect with ${userProfile.username}</button>
                                 </form>`,
-                connectionslist: connections
+                connectionslist: connections,
+                actionString: 'action="/skills/' + req.params.id + '"',
+                skillCards: skillCards
                 }
             })
         }
@@ -148,6 +154,11 @@ const apiRoutes = (app, db)=>{
         res.redirect('/lobby')
     })
 
+    app.post('/skills/:id', checkIsLoggedIn, async (req, res)=> {
+        await updateSkills(db, req.params.id, req.body.skill)
+        res.redirect(`/user/${req.params.id}`)
+    })
+
     
     app.get('/login', (req,res)=>res.sendFile(__dirname + '/public/html/login.html'))
 
@@ -172,8 +183,6 @@ const apiRoutes = (app, db)=>{
 
     app.get('/photos/:id', async (req, res)=> {
         let pic = await getPhoto(req.params.id, db)
-        console.log(pic, "167")
-        // for now
         res.sendFile(__dirname + '/public/profile_images/'+pic)
     })
 
@@ -206,21 +215,15 @@ const apiRoutes = (app, db)=>{
         })
 
         .on ("end", async () => {
-            console.log("your photo is uploaded!");
-            
-        //Now i can save the form to the database
             let pid = req.user.id
             let cut = form.profile_image.indexOf('s')+2
             let newimageaddress= form.profile_image.substring(cut)
             let oldImage = await db.one(`SELECT imgname FROM images WHERE user_id ='${pid}'`)
-            console.log(oldImage.imgname, "215")
             let file = oldImage.imgname
             if (file != 'default.jpg')
             {
                 if(fs.existsSync('./public/profile_images/' + file))
                 {fs.unlinkSync('./public/profile_images/' + file)}
-                // if(fs.existsSync('./public' + form.profile_image))
-                // {fs.unlinkSync('./public' + form.profile_image)}
             }
             let result = await db.none(`UPDATE images set imgname = '${newimageaddress}' where user_id = '${pid}'`)
             res.json({"url": `/user/${req.user.id}`})

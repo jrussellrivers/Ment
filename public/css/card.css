@@ -46,5 +46,18 @@ element.style {
     margin: 0;
     font-family: "Harmonia Sans","Avenir Next",Helvetica,sans-serif;
 }
+.true {
+    border-radius: 50px;
+    background-color: #4a7afa;
+    padding: 6px 10px;
+    margin-left: 10px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    max-width: 100px;
+}
 
+.false {
+    background-color: grey;
+    vis
 
