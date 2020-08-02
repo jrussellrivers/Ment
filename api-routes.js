@@ -22,6 +22,7 @@ const returnUsername = require('./public/js/returnUsername')
 const renderConnections = require('./public/js/renderConnections.js')
 const renderSkills = require('./public/js/renderSkills.js')
 const updateSkills = require('./public/js/updateSkills.js')
+const renderView = require('./public/js/renderView.js')
 
 
 const bcrypt = require('bcrypt')
@@ -76,12 +77,16 @@ const apiRoutes = (app, db)=>{
     // login needs to be changed. find way to serve public website first, then only upon attempt to login
     // authenticate and attempt to serve mentor/mentee routing
 
-    app.get(`/user/:id`, checkIsLoggedIn, async (req,res)=> {
+    app.get(`/user/:id`, checkIsLoggedIn, renderView, async (req,res)=> {
         // createProfile(req.params.id,db)
         let userProfile = await createProfile(req.params.id, db)
         // this can be declared elsewhere...
         let picture = await getPhoto(req.params.id, db)
         let skillCards = await renderSkills(req.params.id, db)
+
+        // let test = await renderView(req.user, req.params.id, db) // this will replace everything below it 
+        // test()
+
         const showMenteeProfile = async (connections) => {
             res.render("mentee_profile", {
                 locals: {

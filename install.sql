@@ -34,11 +34,12 @@ CREATE TABLE connections (
 );
 
 CREATE TABLE skills (
-    id SERIAL PRIMARY KEY,
+    id INTEGER REFERENCES users (id),
     pm BOOLEAN DEFAULT FALSE,
     creative BOOLEAN DEFAULT FALSE,
     ml BOOLEAN DEFAULT FALSE,
     datascience BOOLEAN DEFAULT FALSE,
     softwareengineering BOOLEAN DEFAULT FALSE,
-    webdev BOOLEAN DEFAULT FALSE
+    webdev BOOLEAN DEFAULT FALSE,
+    
 );

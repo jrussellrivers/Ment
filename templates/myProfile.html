@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile</title>
+    <style>
+        .true {
+            border-radius: 50px;
+            background-color: #4a7afa;
+            padding: 6px 10px;
+            margin-left: 10px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 12px;
+            max-width: 100px;
+        }
+
+        .false {
+            background-color: grey;
+            visibility: hidden
+        }
+    </style>
 </head>
 <body>
     <div class="w3-container">
@@ -25,13 +42,33 @@
         <button>Edit Profile</button>
     </div>
 
+    <form ${actionString} method="POST"> 
+        <label><b>Update your skill list</b></label> 
+        <select id="skill" name="skill">
+            <option value="pm">Product Management</option>
+            <option value="creative">Creative</option>
+            <option value="ml">Machine learning</option>
+            <option value="datascience">Data science</option>
+            <option value="softwareengineering">Software Engineering</option>
+            <option value="webdev">Web Developement</option>
+            <!-- <option value="audi">Audi</option> -->
+        </select>
+        <input type="submit" value="UpdateSkill" class="myButton"> 
+    </form>
+    ${skillCards}
     <div>
-        Let's find you a mentor! 
-        <div>Mentors are great. Get one.</div>
-        <button>Find mentor</button>
-        
-        ${chatlink}
+        <h1>
+            Manage Account
+        </h1>
+        <button>Change Password</button>
+        <form method="get" action="/logout">
+            <button type="submit">Logout</button>
+        </form>
     </div>
+    
+    ${connectbutton}
+    ${connectionslist}
+
     <br>
     <div>
         <h1>

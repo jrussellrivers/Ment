@@ -8,8 +8,9 @@ const createUser = async (req,res,next) => {
     const result = req.body.about.replace(searchRegExp, replaceWith)
     let insertion = await db.none(`INSERT INTO users (username, email, password, mentor, about, zipcode) VALUES ($1, $2, $3, $4, $5, $6)`, 
     [req.body.username, req.body.email, hash, req.body.mentorBool, result, parseInt(req.body.zipcode)])
-    await db.none(`INSERT INTO skills (pm, creative, ml, datascience, softwareengineering, webdev) VALUES ($1, $2, $3, $4, $5, $6)`, 
-    ['f', 'f', 'f', 'f', 'f', 'f'])
+    let newUser = await db.one(`SELECT * FROM users where username = '${req.body.username}'`)
+    await db.none(`INSERT INTO skills (id, pm, creative, ml, datascience, softwareengineering, webdev) VALUES ($1, $2, $3, $4, $5, $6, $7)`, 
+    [newUser.id, 'f', 'f', 'f', 'f', 'f', 'f'])
     next()
 }
 

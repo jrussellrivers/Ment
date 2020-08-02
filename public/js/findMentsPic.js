@@ -5,17 +5,15 @@ const findMents = async (user, category, value, db, url) => {
     let notMentor = !user.mentor
     // then query database for all mentees or mentors whose information matches the query
     let ments = await db.any(`SELECT * FROM users WHERE mentor='${notMentor}' and ${category}='${value}'`)
-    
-    
+
     const getSkillSets = async (ments) => {
         let skillSets = []
-        for(i=0;i<ments.length;i++){
-            let skillSet = await renderSkills(ments[i].id, db)
+        for(let j=0;j<ments.length;j++){
+            let skillSet = await renderSkills(ments[j].id, db)
             skillSets.push(skillSet)
         }
         return skillSets
     }
-
     let skillSets = await getSkillSets(ments)
 
     const getPhoto = async (id) => {
