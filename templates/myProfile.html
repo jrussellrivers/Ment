@@ -18,6 +18,194 @@
         }
 
         .false {
+            border-radius: 50px;
+            background-color: rgb(228, 228, 228);
+            padding: 6px 10px;
+            margin-left: 10px;
+            color: rgb(122, 122, 122);
+            font-weight: 600;
+            font-size: 12px;
+            max-width: 100px;
+        }
+
+        img{
+          max-height: 500px;
+          max-width: 300px;
+        }
+
+        .skills-container{
+          margin: 10px;
+          display: flex;
+          justify-content: center;
+        }
+
+        .skill-tag{
+          min-width: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+    </style>
+</head>
+<body>
+  <section class="hero is-info is-medium is-bold">
+    <div class="hero-head">
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+
+            <!-- This needs to be the Logo -->
+            <div class="navbar-brand">
+              <a class="navbar-item" href="/">
+                <img href="/homes" src="/images/Ment.png" width="112" height="28">
+              </a>
+          
+              <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </div>
+          
+            <div id="navbarBasicExample" class="navbar-menu">
+              <div class="navbar-start">
+                <!-- <a href="/" class="navbar-item">
+                  Home
+                </a> -->
+      
+                <a href="/lobby" class="navbar-item">
+                  Lobby
+                </a>
+          
+                <a class="navbar-item">
+                  About
+                </a>
+      
+                <a href="/html/image-upload.html" class="navbar-item">
+                  Upload Image
+                </a>
+          
+              </div>
+          
+              <div class="navbar-end">
+                <div class="navbar-item">
+                  <div class="buttons">
+                    <a href="#" class="button is-primary">
+                      <strong>${user.username}</strong>
+                    </a>
+                    <form method="get" action="/logout"></form>
+                    <a href="/login" type="submit" class="button is-light">
+                        <strong>Log out</strong>
+                        </form>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </section>
+
+      <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title">
+                Welcome ${user.username}!
+            </h1>
+            <h2 class="subtitle">
+              ${picture}
+          </h2>
+            <h2 class="subtitle">
+              This is your Personal Page 
+            </h2>
+            <!-- <div>
+                <button>View Profile</button>
+                <button>Edit Profile</button>
+            </div> -->
+            <hr>
+            <!-- <h1 class="title">
+              ${connectbutton}
+          </h1> -->
+          <h1><strong>My Connections:</strong></h1>
+          <h2 class="subtitle">
+              <div>${connectionslist}</div>
+            </h2>
+          <hr>
+          <form ${actionString} method="POST"> 
+            <label><b>Update your skill list</b></label>
+            <select id="skill" name="skill">
+                <option value="">--Select a Skill--</option>
+                <option value="product_management">Product Management</option>
+                <option value="design">Design</option>
+                <option value="machine_learning">Machine learning</option>
+                <option value="data_science">Data science</option>
+                <option value="software_engineering">Software Engineering</option>
+                <option value="web_development">Web Development</option>
+                <!-- <option value="audi">Audi</option> -->
+            </select>
+            <input type="submit" value="UpdateSkill" class="myButton"> 
+        </form>
+        ${skillCards}
+
+        <!-- <hr> -->
+        <!-- <h1>
+          Manage Account
+      </h1>
+      <button>Change Password</button> -->
+
+
+<section class=“section notification is-primary”></section>
+    
+
+    <hr>    
+
+    <nav class="navbar is-transparent is-primary is-fixed-bottom">
+        <div class="navbar-brand">
+          <div class="navbar-burger burger" data-target="chatbar">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      
+        <div id="chatbar" class="navbar-menu is-primary">
+          <div class="navbar-end">
+            <div class="navbar-item has-dropdown-up is-hoverable">
+              <div class="navbar-link navbar-end">
+                Your Chat Rooms
+              </div>
+              <div class="navbar-dropdown is-boxed">
+                ${chatrooms}
+                <hr class="navbar-divider">
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+</body>
+    <script src="/js/navbarBurger.js"></script>
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <style>
+        .true {
+            border-radius: 50px;
+            background-color: #4a7afa;
+            padding: 6px 10px;
+            margin-left: 10px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 12px;
+            max-width: 100px;
+        }
+
+        .false {
             background-color: grey;
             visibility: hidden
         }
@@ -52,21 +240,13 @@
             <option value="datascience">Data science</option>
             <option value="softwareengineering">Software Engineering</option>
             <option value="webdev">Web Developement</option>
-            <!-- <option value="audi">Audi</option> -->
+           <option value="audi">Audi</option> 
         </select>
         <input type="submit" value="UpdateSkill" class="myButton"> 
     </form>
     ${skillCards}
-    <div>
-        <h1>
-            Manage Account
-        </h1>
-        <button>Change Password</button>
-        <form method="get" action="/logout">
-            <button type="submit">Logout</button>
-        </form>
-    </div>
-    
+
+    <hr>    
     ${connectbutton}
     ${connectionslist}
 
@@ -105,4 +285,4 @@
       </nav>
 </body>
     <script src="/js/navbarBurger.js"></script>
-</html>
+</html> 

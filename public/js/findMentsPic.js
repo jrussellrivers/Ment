@@ -80,18 +80,7 @@ const findMents = async (user, category, value, db, url) => {
         </div>
         </button>
         </form>
-        <footer class="footer">
-        <div class="container">
-            <div class="content has-text-centered">
-            <div class="soc">
-                <a href="#"><i class="fa fa-github-alt fa-lg" aria-hidden="true"></i></a>
-                <a href="#"><i class="fa fa-youtube fa-lg" aria-hidden="true"></i></a>
-                <a href="#"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a>
-                <a href="#"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a>
-            </div>
-            </div>
-        </div>
-        </footer>
+
                 `
     new_html = new_html + new_card
     }).join("")
