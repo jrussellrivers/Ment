@@ -2,6 +2,11 @@ const renderSkills = require('./renderSkills.js')
 const getPhoto = require('./getPhoto.js')
 const createProfile = require('./createProfile.js')
 const renderConnections = require('./renderConnections.js')
+<<<<<<< HEAD
+=======
+const grabOnlineUsers = require('./grabOnlineUsers.js')
+const grabAllUserChats = require('./grabAllUserChats.js')
+>>>>>>> origin/master
 
 const renderView = async (req, res, next) => {
     db = res.db
@@ -11,11 +16,26 @@ const renderView = async (req, res, next) => {
     let picture = await getPhoto(req.params.id, db)
     let skillCards = await renderSkills(req.params.id, db)
     let connections = await renderConnections(db, userProfile)
+<<<<<<< HEAD
+=======
+    let online_users = grabOnlineUsers(req)
+    let status = online_users.includes(req.params.id)
+    if (status == true){
+        online_pic = '🟢'
+    } else {
+        online_pic = '⚪'
+    }
+    let user_chats = await grabAllUserChats(db, req.user, online_users)
+>>>>>>> origin/master
 
 
     const showMyProfile = async () => {
         res.render("myProfile", {
             locals: {
+<<<<<<< HEAD
+=======
+                chatrooms: user_chats,
+>>>>>>> origin/master
                 user: userProfile || {type:"N/A",username:"N/A"},
                 picture: `<img src="/profile_images/${picture}">`,
                 chatlink:``,
@@ -30,6 +50,11 @@ const renderView = async (req, res, next) => {
     const showOrToEeProfile = async () => {
         res.render("mentorToMentee", {
             locals: {
+<<<<<<< HEAD
+=======
+                chatrooms: user_chats,
+                online: online_pic,
+>>>>>>> origin/master
                 user: userProfile || {type:"N/A",username:"N/A"},
                 picture: `<img src="/profile_images/${picture}">`,
                 chatlink:`<form action="/chat/${userProfile.id}" method="get">
@@ -47,6 +72,11 @@ const renderView = async (req, res, next) => {
     const showEeToOrProfile = async () => {
         res.render("menteeToMentor", {
             locals: {
+<<<<<<< HEAD
+=======
+                chatrooms: user_chats,
+                online: online_pic,
+>>>>>>> origin/master
                 user: userProfile || {type:"N/A",username:"N/A"},
                 picture: `<img src="/profile_images/${picture}">`,
                 chatlink:`<form action="/chat/${userProfile.id}" method="get">
@@ -64,6 +94,11 @@ const renderView = async (req, res, next) => {
     const showEeToEeProfile = async () => {
         res.render("mentToMent", {
             locals: {
+<<<<<<< HEAD
+=======
+                chatrooms: user_chats,
+                online: online_pic,
+>>>>>>> origin/master
                 user: userProfile || {type:"N/A",username:"N/A"},
                 picture: `<img src="/profile_images/${picture}">`,
                 chatlink:``,
@@ -78,6 +113,11 @@ const renderView = async (req, res, next) => {
         
         res.render("mentToMent", {
             locals: {
+<<<<<<< HEAD
+=======
+                chatrooms: user_chats,
+                online: online_pic,
+>>>>>>> origin/master
                 user: userProfile || {type:"N/A",username:"N/A"},
                 picture: `<img src="/profile_images/${picture}">`,
                 chatlink:``,
