@@ -4,7 +4,6 @@ const secretInfo = require('./config.js')
 const pgp = require('pg-promise')()
 const eS = require('express-session')
 const expressSession = eS(secretInfo().secret)
-
 const formidable = require("formidable");
 const es6Renderer = require('express-es6-template-engine');
 

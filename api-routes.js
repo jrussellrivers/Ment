@@ -1,3 +1,7 @@
+//To make your app.js look cleaner use this pattern
+// import checkIsLoggedIn from 'public/js/checkIsLoggedIn.js'
+// const db = require('./app')
+
 const passport = require('passport')
 const formidable = require("formidable");
 const Strategy = require('passport-local').Strategy
@@ -16,11 +20,21 @@ const makeConnection = require('./public/js/makeConnection.js')
 const checkLoggedUser = require('./public/js/checkLoggedUser.js')
 const returnUsername = require('./public/js/returnUsername')
 const renderConnections = require('./public/js/renderConnections.js')
+const renderSkills = require('./public/js/renderSkills.js')
+const updateSkills = require('./public/js/updateSkills.js')
+const renderView = require('./public/js/renderView.js')
+
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 const apiRoutes = (app, db)=>{
+        //  use static here
+    // app.use(express.static('public')) - create static folders for public, mentor, and mentee
+    // app.get('/', (req, res)=> {
+    //     res.render('./public/index.html')
+    // })
+
     //  this function passed in the database to all routes/middleware
     const passInfo = (req, res, next) => {
         res.db = db
@@ -35,6 +49,7 @@ const apiRoutes = (app, db)=>{
 
     // seperate pg promise
     passport.use(new Strategy((username,password,callback)=>{
+        // console.log(username, password)
         db.one(`SELECT * FROM users WHERE username='${username}'`)
         .then(u=>{
             console.log(u) //
@@ -43,6 +58,7 @@ const apiRoutes = (app, db)=>{
                 if(!result) return callback(null,false)
                 return callback(null, u)
             })
+            // return callback(null, u) // delete/comment this out later
         })
         .catch(()=>callback(null,false))
     }))
@@ -61,51 +77,11 @@ const apiRoutes = (app, db)=>{
     // login needs to be changed. find way to serve public website first, then only upon attempt to login
     // authenticate and attempt to serve mentor/mentee routing
 
-    app.get(`/user/:id`, checkIsLoggedIn, async (req,res)=> {
-        // createProfile(req.params.id,db)
-        let userProfile = await createProfile(req.params.id, db)
-        // this can be declared elsewhere...
-        const showMenteeProfile = (connections) => {
-            res.render("mentee_profile", {
-                locals: {
-                user: userProfile || {type:"N/A",username:"N/A"},
-                // chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>',
-                chatlink:`<form action="/chat/${userProfile.id}" method="get">
-                                <button type="submit">Chat with ${userProfile.username}</button>
-                            </form>`,
-                connectbutton: `<form action="/user/${req.params.id}/connect" method="get">
-                                    <button type="submit">Connect with ${userProfile.username}</button>
-                                </form>`,
-                connectionslist: connections
-                }
-            })
-        }
-        const showMentorProfile = (connections) => {
-            res.render("mentor_profile", {
-                locals: {
-                user: userProfile || {type:"N/A",username:"N/A"},
-                // chatlink: '<a href = /chat/' + userProfile.id + '>' + `Chat with ${userProfile.username}` + '</a>',
-                chatlink:`<form action="/chat/${userProfile.id}" method="get">
-                                <button type="submit">Chat with ${userProfile.username}</button>
-                            </form>`,
-                connectbutton: `<form action="/user/${req.params.id}/connect" method="get">
-                                    <button type="submit">Connect with ${userProfile.username}</button>
-                                </form>`,
-                connectionslist: connections
-                }
-            })
-        }
-        if (userProfile.mentor == false) {
-            let connections = await renderConnections(db, userProfile)
-            showMenteeProfile(connections);
-        } else if (userProfile.mentor == true) {
-            let connections = await renderConnections(db, userProfile)
-            showMentorProfile(connections);
-        } else {
-        res.redirect('/');
-        }
+    app.get(`/user/:id`, checkIsLoggedIn, renderView, async (req,res)=> {
+        // middlware should handle everything here.
     })
-    var new_cards = undefined
+
+    var new_cards = undefined;
     app.get(`/lobby`, checkIsLoggedIn, (req,res)=> {
         if (new_cards == undefined){
             new_cards = ''
@@ -134,6 +110,11 @@ const apiRoutes = (app, db)=>{
         res.redirect('/lobby')
     })
 
+    app.post('/skills/:id', checkIsLoggedIn, async (req, res)=> {
+        await updateSkills(db, req.params.id, req.body.skill)
+        res.redirect(`/user/${req.params.id}`)
+    })
+
     
     app.get('/login', (req,res)=>res.sendFile(__dirname + '/public/html/login.html'))
 
@@ -158,9 +139,6 @@ const apiRoutes = (app, db)=>{
 
     app.get('/photos/:id', async (req, res)=> {
         let pic = await getPhoto(req.params.id, db)
-        console.log(pic, "167")
-        // for now
-        pic = 'default.jpg'
         res.sendFile(__dirname + '/public/profile_images/'+pic)
     })
 
@@ -187,35 +165,25 @@ const apiRoutes = (app, db)=>{
         //console.log('Uploaded file', name, file);
         // new_path = file.path.split().join("")
         // new_path = file.path.replace(/\s/g, '')
-        console.log("187", file.path)
+        console.log("203", file.path)
         form.profile_image = file.path.replace(__dirname + "/public", "");
         console.log(form.profile_image)
         })
 
         .on ("end", async () => {
-            console.log("your photo is uploaded!");
-            
-        //Now i can save the form to the database
             let pid = req.user.id
-            let newimageaddress= '<img src="' + form.profile_image + '"'
-            let checkphoto = await db.one(`SELECT imgname FROM images WHERE user_id ='${pid}'`)
-            console.log(checkphoto.imgname, "199")
-
-            if (checkphoto.imgname != '<img src="/profile_images/default.jpg">')
+            let cut = form.profile_image.indexOf('s')+2
+            let newimageaddress= form.profile_image.substring(cut)
+            let oldImage = await db.one(`SELECT imgname FROM images WHERE user_id ='${pid}'`)
+            let file = oldImage.imgname
+            if (file != 'default.jpg')
             {
-                console.log(form.profile_image, "203")
-                console.log(checkphoto.imgname, "204")
-                let file = checkphoto.imgname.replace('<img src="', '').replace('">', '').replace('"', '')
-                console.log(file, "206")
-                if(fs.existsSync('./public' + file))
-                {fs.unlinkSync('./public' + file)}
-                // if(fs.existsSync('./public' + form.profile_image))
-                // {fs.unlinkSync('./public' + form.profile_image)}
+                if(fs.existsSync('./public/profile_images/' + file))
+                {fs.unlinkSync('./public/profile_images/' + file)}
+
             }
-            console.log(newimageaddress)
             let result = await db.none(`UPDATE images set imgname = '${newimageaddress}' where user_id = '${pid}'`)
             res.json({"url": `/user/${req.user.id}`})
-            // res.send(result)
             });
     });
     

@@ -1,30 +1,39 @@
+const renderSkills = require('./renderSkills.js')
+
 const findMents = async (user, category, value, db, url) => {
     // first determine if mentee or mentor
     let notMentor = !user.mentor
     // then query database for all mentees or mentors whose information matches the query
     let ments = await db.any(`SELECT * FROM users WHERE mentor='${notMentor}' and ${category}='${value}'`)
-    // console.log(ments, "8") 
+
+    const getSkillSets = async (ments) => {
+        let skillSets = []
+        for(let j=0;j<ments.length;j++){
+            let skillSet = await renderSkills(ments[j].id, db)
+            skillSets.push(skillSet)
+        }
+        return skillSets
+    }
+    let skillSets = await getSkillSets(ments)
+
     const getPhoto = async (id) => {
         let result = await db.oneOrNone(`SELECT * FROM images WHERE user_id='${id}'`)
         return (result == null ? '../profile_images/default.jpg' : result)
     }
-    var pics = []
-    const getPhotos = async (ments) => {
-        for(i=0;i<ments.length;i++){
-            let pic = await getPhoto(ments[i].id)
-            pics.push(pic.imgname)
-        }
-    }
-    getPhotos(ments)
-    console.log(pics, "20")
+    // let pics = []
+    // const getPhotos = async (ments) => {
+    //     for(i=0;i<ments.length;i++){
+    //         let pic = await getPhoto(ments[i].id)
+    //         pics.push(pic.imgname)
+    //     }
+    // }
+    // getPhotos(ments)
+
     // then generate hmtl cards for each user result. join at the end. Potentially sort them.
     let new_html = ''
     ments.map((ment, idx)=>{
-        let pic = pics[idx]
-        // remove this once picture files are clean
-        pic = 'default.jpg'
+        // let pic = pics[idx]
         pic_path = url + '/photos/' + ment.id
-        // if(pic[pic.length -1]!= '>'){pic[pic.length -1]!= '>'} // add a closing arrow
         let new_card = 
                 `
                 <form action="/user/${ment.id}" method="get">
@@ -59,6 +68,9 @@ const findMents = async (user, category, value, db, url) => {
                     </div>
                     <div class="content">
                     Contact me at ${ment.email}
+                    </div>
+                    <div class="content">
+                    My Expertise: ${skillSets[idx]}
                     </div>
                 </div>
                 </div>

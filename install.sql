@@ -26,8 +26,21 @@ CREATE TABLE chat_messages (
     sent_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     chat_id INTEGER REFERENCES chat_rooms (id)
 );
+
 CREATE TABLE connections (
     id SERIAL PRIMARY KEY,
     mentor_id INTEGER REFERENCES users (id),
     mentee_id INTEGER REFERENCES users (id)
 );
+
+CREATE TABLE skills (
+    id INTEGER REFERENCES users (id),
+    pm BOOLEAN DEFAULT FALSE,
+    creative BOOLEAN DEFAULT FALSE,
+    ml BOOLEAN DEFAULT FALSE,
+    datascience BOOLEAN DEFAULT FALSE,
+    softwareengineering BOOLEAN DEFAULT FALSE,
+    webdev BOOLEAN DEFAULT FALSE,
+    
+);
+
