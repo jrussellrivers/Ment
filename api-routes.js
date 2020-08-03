@@ -78,58 +78,9 @@ const apiRoutes = (app, db)=>{
     // authenticate and attempt to serve mentor/mentee routing
 
     app.get(`/user/:id`, checkIsLoggedIn, renderView, async (req,res)=> {
-        // createProfile(req.params.id,db)
-        let userProfile = await createProfile(req.params.id, db)
-        // this can be declared elsewhere...
-        let picture = await getPhoto(req.params.id, db)
-        let skillCards = await renderSkills(req.params.id, db)
-
-        // let test = await renderView(req.user, req.params.id, db) // this will replace everything below it 
-        // test()
-
-        const showMenteeProfile = async (connections) => {
-            res.render("mentee_profile", {
-                locals: {
-                user: userProfile || {type:"N/A",username:"N/A"},
-                picture: `<img src="/profile_images/${picture}">`,
-                chatlink:`<form action="/chat/${userProfile.id}" method="get">
-                                <button type="submit">Chat with ${userProfile.username}</button>
-                            </form>`,
-                connectbutton: `<form action="/user/${req.params.id}/connect" method="get">
-                                    <button type="submit">Connect with ${userProfile.username}</button>
-                                </form>`,
-                connectionslist: connections
-                }
-            })
-        }
-        
-        const showMentorProfile = async (connections) => {
-            res.render("mentor_profile", {
-                locals: {
-                user: userProfile || {type:"N/A",username:"N/A"},
-                picture: `<img src="/profile_images/${picture}">`,
-                chatlink:`<form action="/chat/${userProfile.id}" method="get">
-                                <button type="submit">Chat with ${userProfile.username}</button>
-                            </form>`,
-                connectbutton: `<form action="/user/${req.params.id}/connect" method="get">
-                                    <button type="submit">Connect with ${userProfile.username}</button>
-                                </form>`,
-                connectionslist: connections,
-                actionString: 'action="/skills/' + req.params.id + '"',
-                skillCards: skillCards
-                }
-            })
-        }
-        if (userProfile.mentor == false) {
-            let connections = await renderConnections(db, userProfile)
-            showMenteeProfile(connections);
-        } else if (userProfile.mentor == true) {
-            let connections = await renderConnections(db, userProfile)
-            showMentorProfile(connections);
-        } else {
-        res.redirect('/');
-        }
+        // middlware should handle everything here.
     })
+
     var new_cards = undefined;
     app.get(`/lobby`, checkIsLoggedIn, (req,res)=> {
         if (new_cards == undefined){
@@ -229,6 +180,7 @@ const apiRoutes = (app, db)=>{
             {
                 if(fs.existsSync('./public/profile_images/' + file))
                 {fs.unlinkSync('./public/profile_images/' + file)}
+
             }
             let result = await db.none(`UPDATE images set imgname = '${newimageaddress}' where user_id = '${pid}'`)
             res.json({"url": `/user/${req.user.id}`})

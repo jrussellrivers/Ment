@@ -124,3 +124,43 @@ const renderView = async (req, res, next) => {
     choice()
 }
 module.exports = renderView
+
+
+
+
+
+
+
+// const showMenteeProfile = async (connections) => {
+//             res.render("mentee_profile", {
+//                 locals: {
+//                 user: userProfile || {type:"N/A",username:"N/A"},
+//                 picture: `<img src="/profile_images/${picture}">`,
+//                 chatlink:`<form action="/chat/${userProfile.id}" method="get">
+//                                 <button type="submit">Chat with ${userProfile.username}</button>
+//                             </form>`,
+//                 connectbutton: `<form action="/user/${req.params.id}/connect" method="get">
+//                                     <button type="submit">Connect with ${userProfile.username}</button>
+//                                 </form>`,
+//                 connectionslist: connections
+//                 }
+//             })
+//         }
+        
+//         const showMentorProfile = async (connections) => {
+//             res.render("mentor_profile", {
+//                 locals: {
+//                 user: userProfile || {type:"N/A",username:"N/A"},
+//                 picture: `<img src="/profile_images/${picture}">`,
+//                 chatlink:`<form action="/chat/${userProfile.id}" method="get">
+//                                 <button type="submit">Chat with ${userProfile.username}</button>
+//                             </form>`,
+//                 connectbutton: `<form action="/user/${req.params.id}/connect" method="get">
+//                                     <button type="submit">Connect with ${userProfile.username}</button>
+//                                 </form>`,
+//                 connectionslist: connections,
+//                 actionString: 'action="/skills/' + req.params.id + '"',
+//                 skillCards: skillCards
+//                 }
+//             })
+//         }

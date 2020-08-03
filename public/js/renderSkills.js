@@ -15,7 +15,7 @@ const renderSkills = async (user_id, db) => {
         cards = cards + `<div class = "skill-tag ${skillStatus}">${skills[i]}</div>`
     }
     cards = cards + `</div>`
-    
+    lin
     return cards
 }
 module.exports = renderSkills
