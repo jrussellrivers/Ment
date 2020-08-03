@@ -43,3 +43,4 @@ CREATE TABLE skills (
     webdev BOOLEAN DEFAULT FALSE,
     
 );
+
