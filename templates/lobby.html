@@ -1,4 +1,120 @@
 <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Index</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    </head>
+    <body>
+        <section class="hero is-info is-medium is-bold">
+            <div class="hero-head">
+                <nav class="navbar" role="navigation" aria-label="main navigation">
+      
+                    <!-- This needs to be the Logo -->
+                    <div class="navbar-brand">
+                      <a class="navbar-item" href="/">
+                        <img src="/images/Ment.png" width="112" height="28">
+                      </a>
+                  
+                      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                      </a>
+                    </div>
+                  
+                    <div id="navbarBasicExample" class="navbar-menu">
+                      <div class="navbar-start">
+                        <!-- <a href="/" class="navbar-item">
+                          Home
+                        </a> -->
+              
+                        <a href= "/lobby" class="navbar-item">
+                          Lobby
+                        </a>
+                  
+                        <a class="navbar-item">
+                          About
+                        </a>
+              
+                        <a href="/html/image-upload.html" class="navbar-item">
+                          Upload Image
+                        </a>
+                  
+                      </div>
+                  
+                      <div class="navbar-end">
+                        <div class="navbar-item">
+                          <div class="buttons">
+                            <a href="#" class="button is-primary">
+                              <strong>${user.username}</strong>
+                            </a>
+                            <form method="get" action="/logout"></form>
+                            <a href="/login" type="submit" class="button is-light">
+                                <strong>Log out</strong>
+                                </form>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </nav>
+                 
+
+                  <!-- <section class="hero is-info is-large"> -->
+                  <section class="hero is-medium is-info is-bold">
+                    <div class="hero-body">
+                      <h1 class="title">
+                        Search for a Ment
+                      </h1>
+                      
+                  <div class="panel">
+                    <div class="panel-block">
+                        <div class="field">
+                          <form action="/lobby" method="POST"> 
+                            <div class="control" id="search" name="search">
+                              <div class="select" id="search" name="search">
+                                <select id="search" name="search">
+                                  <option value="username">Username</option>
+                                  <option value="password">Email</option>
+                                  <option value="zipcode">Zipcode</option>
+                                </select>
+                              </div>
+                            </div>
+                            <input class="input" type="text" placeholder="Enter Search" name="SearchQuery" >
+
+                        </form>
+                            ${cards}
+                          
+                        </h2>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </section>
+
+
+                  
+<!--                     
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      
+    </p>
+  </div>
+</footer>
+                 -->
+            
+    </body>
+    <script src="../js/bulma.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="../js/navbarBurger.js"></script>
+</html>
+
+
+<!-- <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -29,8 +145,7 @@
 </style>
   </head>
   <body>
-    <!-- START NAV -->
-    <nav class="navbar">
+     <nav class="navbar">
       <div class="container">
         <div class="navbar-brand">
           <a class="navbar-item" href="#">
@@ -66,14 +181,13 @@
         </div>
       </div>
     </nav>
-    <!-- END NAV -->
     <form action="/lobby" method="POST"> 
         <label><b>Search for a Ment</b></label> 
         <select id="search" name="search">
             <option value="username">Username</option>
             <option value="password">Email</option>
             <option value="zipcode">Zipcode</option>
-            <!-- <option value="audi">Audi</option> -->
+             <option value="audi">Audi</option> 
         </select>
         <input type="text" placeholder="Enter Search" name="SearchQuery"> 
     </form>
@@ -103,4 +217,4 @@
         </nav>
       </body>
       <script src="../js/navbarBurger.js"></script>
-</html>
+</html> -->
