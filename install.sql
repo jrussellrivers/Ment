@@ -19,6 +19,7 @@ CREATE TABLE chat_rooms (
     mentor_id INTEGER REFERENCES users (id),
     mentee_id INTEGER REFERENCES users (id)
 );
+
 CREATE TABLE chat_messages (
     id SERIAL PRIMARY KEY,
     sent_message VARCHAR,
@@ -42,4 +43,3 @@ CREATE TABLE skills (
     softwareengineering BOOLEAN DEFAULT FALSE,
     webdev BOOLEAN DEFAULT FALSE
 );
-
