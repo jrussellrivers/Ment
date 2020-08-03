@@ -26,3 +26,8 @@ CREATE TABLE chat_messages (
     sent_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     chat_id INTEGER REFERENCES chat_rooms (id)
 );
+CREATE TABLE connections (
+    id SERIAL PRIMARY KEY,
+    mentor_id INTEGER REFERENCES users (id),
+    mentee_id INTEGER REFERENCES users (id)
+);
