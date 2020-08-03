@@ -40,7 +40,6 @@ CREATE TABLE skills (
     ml BOOLEAN DEFAULT FALSE,
     datascience BOOLEAN DEFAULT FALSE,
     softwareengineering BOOLEAN DEFAULT FALSE,
-    webdev BOOLEAN DEFAULT FALSE,
-    
+    webdev BOOLEAN DEFAULT FALSE
 );
 
