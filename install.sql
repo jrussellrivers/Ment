@@ -36,11 +36,10 @@ CREATE TABLE connections (
 
 CREATE TABLE skills (
     id INTEGER REFERENCES users (id),
-    pm BOOLEAN DEFAULT FALSE,
-    creative BOOLEAN DEFAULT FALSE,
-    ml BOOLEAN DEFAULT FALSE,
-    datascience BOOLEAN DEFAULT FALSE,
-    softwareengineering BOOLEAN DEFAULT FALSE,
-    webdev BOOLEAN DEFAULT FALSE
+    product_management BOOLEAN DEFAULT FALSE,
+    design BOOLEAN DEFAULT FALSE,
+    machine_learning BOOLEAN DEFAULT FALSE,
+    data_science BOOLEAN DEFAULT FALSE,
+    software_engineering BOOLEAN DEFAULT FALSE,
+    web_development BOOLEAN DEFAULT FALSE
 );
-

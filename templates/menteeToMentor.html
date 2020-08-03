@@ -1,27 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
-    <title>My Profile</title>
-</head>
-<body>
-    <div class="w3-container">
-        <div class="w3-bar w3-green">
-          <a href="/" class="w3-bar-item w3-button">ProjectM</a>
-          <a href="#" class="w3-bar-item w3-button">Browse</a>
-          <!-- <a href="#" class="w3-bar-item w3-button">${user.username}</a> -->
-        </div>  
-      </div>
-    <h1>
-        You should be a mentee looking at a mentor page
-    </h1>
-    ${connectbutton}
-    ${connectionslist}
-    ${chatlink}
-    ${connectbutton}
-    ${connectionslist}
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Index</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+        <style>
+        .true {
+          border-radius: 50px;
+          background-color: #4a7afa;
+          padding: 6px 10px;
+          margin-left: 10px;
+          color: #fff;
+          font-weight: 600;
+          font-size: 12px;
+          max-width: 100px;
+      }
+
+      .false {
+          border-radius: 50px;
+          background-color: rgb(228, 228, 228);
+          padding: 6px 10px;
+          margin-left: 10px;
+          color: rgb(122, 122, 122);
+          font-weight: 600;
+          font-size: 12px;
+          max-width: 100px;
+      }
+
+      img{
+          max-height: 500px;
+          max-width: 300px;
+        }
+
+
+      .skills-container{
+        margin: 10px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .skill-tag{
+        min-width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+  </style>
+    </head>
+    <body>
+        <section class="hero is-info is-medium is-bold">
+            <div class="hero-head">
+                <nav class="navbar" role="navigation" aria-label="main navigation">
+      
+                    <!-- This needs to be the Logo -->
+                    <div class="navbar-brand">
+                      <a class="navbar-item" href="/">
+                        <img src="/images/Ment.png" width="112" height="28">
+                      </a>
+                  
+                      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                      </a>
+                    </div>
+                  
+                    <div id="navbarBasicExample" class="navbar-menu">
+                      <div class="navbar-start">
+                        <a href="" class="navbar-item">
+                          Home
+                        </a>
+              
+                        <a href= "/lobby" class="navbar-item">
+                          Lobby
+                        </a>
+                  
+                        <a href="/html/about.html" class="navbar-item">
+                          About
+                        </a>
+              
+                        <a href="/html/image-upload.html" class="navbar-item">
+                          Upload Image
+                        </a>
+                  
+                      </div>
+                  
+                      <div class="navbar-end">
+                        <div class="navbar-item">
+                          <div class="buttons">
+                            <a href="#" class="button is-primary">
+                              <strong>${user.username}</strong>
+                            </a>
+                            <form method="get" action="/logout"></form>
+                            <a href="/login" type="submit" class="button is-light">
+                                <strong>Log out</strong>
+                                </form>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </nav>
+                  </div>
+                  </section>
+
+                  <div class="hero-body">
+                    <div class="container has-text-centered">
+                        <h1 class="title">
+                          ${user.username}'s Page
+                        </h1>
+                        <h2 class="subtitle">
+                          ${picture}
+                        </h2>
+                        <hr>
+                        <h2 class="subtitle">
+                          About ${user.username}: ${user.about}
+                      </h2>
+                        <hr>
+                        <h2 class="subtitle">
+                        ${chatlink}
+                        ${connectbutton}
+                      </h2>
+                      <hr>
+                        <h2 class="subtitle">
+                        ${user.username}'s Connections:
+                        ${connectionslist}
+                      </h2>
+                      <hr>
+                      <h3 class="subtitle">
+                        I can mentor these skills:
+                        ${skillCards}
+                      </h3>
+                      </div>
+                      </div> 
     <nav class="navbar is-transparent is-primary is-fixed-bottom">
       <div class="navbar-brand">
         <div class="navbar-burger burger" data-target="chatbar">
@@ -46,5 +159,5 @@
       </div>
     </nav>
 </body>
-<script src="../js/navbarBurger.js"></script>
+    <script src="/js/navbarBurger.js"></script>
 </html>

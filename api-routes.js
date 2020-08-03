@@ -233,5 +233,15 @@ const apiRoutes = (app, db)=>{
         }
         res.redirect(`/user/${req.params.id}`)
     })
+
+    app.get('/home', async (req,res) =>{
+        let online_users = grabOnlineUsers(req)
+        let number_users = online_users.length
+        res.render("home", {
+            locals: {
+                number_users: number_users
+            }
+        })
+    })
 };
 module.exports = apiRoutes;
