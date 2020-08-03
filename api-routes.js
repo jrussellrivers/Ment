@@ -23,6 +23,8 @@ const renderConnections = require('./public/js/renderConnections.js')
 const renderSkills = require('./public/js/renderSkills.js')
 const updateSkills = require('./public/js/updateSkills.js')
 const renderView = require('./public/js/renderView.js')
+const grabAllUserChats = require('./public/js/grabAllUserChats.js')
+const grabOnlineUsers = require('./public/js/grabOnlineUsers.js')
 
 
 const bcrypt = require('bcrypt')
@@ -82,20 +84,24 @@ const apiRoutes = (app, db)=>{
     })
 
     var new_cards = undefined;
-    app.get(`/lobby`, checkIsLoggedIn, (req,res)=> {
+    app.get(`/lobby`, checkIsLoggedIn, async (req,res)=> {
+        let online_users = grabOnlineUsers(req)
+        let user_chats = await grabAllUserChats(db, req.user, online_users)
         if (new_cards == undefined){
             new_cards = ''
             res.render("lobby", {
                 locals: {
-                cards: new_cards,
-                user: req.user || {type:"N/A",username:"N/A"},
+                    chatrooms: user_chats,
+                    cards: new_cards,
+                    user: req.user || {type:"N/A",username:"N/A"},
                 }
             })
         }else{
         res.render("lobby", {
             locals: {
-            cards: new_cards,
-            user: req.user || {type:"N/A",username:"N/A"},
+                chatrooms: user_chats,
+                cards: new_cards,
+                user: req.user || {type:"N/A",username:"N/A"},
             }
         })
         }
@@ -137,7 +143,7 @@ const apiRoutes = (app, db)=>{
     })
 
 
-    app.get('/photos/:id', async (req, res)=> {
+    app.get('/photos/:id', checkIsLoggedIn, async (req, res)=> {
         let pic = await getPhoto(req.params.id, db)
         res.sendFile(__dirname + '/public/profile_images/'+pic)
     })
@@ -195,17 +201,20 @@ const apiRoutes = (app, db)=>{
         else{res.redirect(`/chat/room/${room_id}`)}
     })
     
-    app.get('/chat/room/:id', async (req,res) =>{
+    app.get('/chat/room/:id', checkIsLoggedIn, async (req,res) =>{
         let return_id = await checkLoggedUser(db, req.user.id, req.params.id)
         let messages = await renderChatRoom(db, req.params.id)
         let return_username = await returnUsername(db, return_id)
+        let online_users = grabOnlineUsers(req)
+        let user_chats = await grabAllUserChats(db, req.user, online_users)
         res.render("chat_room", {
             locals: {
-            return_link:'href="/user/' + return_id + '"',
-            return_username: return_username,
-            room_id:req.params.id,
-            messages: messages,
-            actionstring:'action="/chat/room/' + req.params.id + '"'
+                chatrooms: user_chats,
+                return_link:'href="/user/' + return_id + '"',
+                return_username: return_username,
+                room_id:req.params.id,
+                messages: messages,
+                actionstring:'action="/chat/room/' + req.params.id + '"'
             }
         })
     })
@@ -215,7 +224,7 @@ const apiRoutes = (app, db)=>{
         res.redirect(`/chat/room/${req.params.id}`)
     })
 
-    app.get('/user/:id/connect', async (req,res)=>{
+    app.get('/user/:id/connect', checkIsLoggedIn, async (req,res)=>{
         let connect = await makeConnection(db, req.params.id, req.user)
         if (connect == false){
             console.log('Connection already made')
