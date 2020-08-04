@@ -74,139 +74,82 @@ ___
 ### ***Solution:*** Stored files with unique naming conventions into server. Hosted those files on our server through routing. 
 
 ## Code Snippets:
-### Our main Javascript file displays the Slider Feature of the menu and Light/Dark mode code.
+### This code is used in order to determine whether or not chat rooms currently exist between users and if they do not, it will create one.
 ``` javascript
-
-//Code for Slider Menu
-function openSlideMenu(){
-    document.getElementById('menu').style.width='250px';
-}
-function closeSlideMenu(){
-    document.getElementById('menu').style.width='0';
+const grabRoom = async (db, mentor_id, mentee_id) => {
+    let room = await db.oneOrNone(`SELECT * FROM chat_rooms WHERE mentor_id='${mentor_id}' AND mentee_id='${mentee_id}'`)
+    return room
 }
 
-let menuOpen = document.getElementById('menu-open')
-menuOpen.addEventListener('click', ()=>{
-    openSlideMenu()
-})
+const makeChatRoom = async (db, mentor_id, mentee_id) =>{
+    let new_room_id = await db.one(`INSERT INTO chat_rooms (mentor_id, mentee_id) VALUES ('${mentor_id}','${mentee_id}') RETURNING id`)
+    return new_room_id.id
+}
 
-let menuClose = document.getElementById('menu-close')
-menuClose.addEventListener('click', ()=>{
-    closeSlideMenu()
-})
-
-// -----------------------------------------------------
-// Allows user to toggle button to change background color
-const chk = document.getElementById('chk');
-chk.addEventListener('change', (cards) => {
-  document.body.classList.toggle('dark');
-  closeSlideMenu()
-});
+const checkChatRoom = async (sender, recipient_id, db) =>{
+    let recipient = await db.one(`SELECT * FROM users WHERE id='${recipient_id}'`)
+    if(sender.mentor == true && recipient.mentor == false){
+        let room = await grabRoom(db, sender.id, recipient_id)
+        if(room == null){
+            let new_room_id = await makeChatRoom(db, sender.id, recipient_id)
+            return new_room_id
+        } else {
+            return room.id
+        }
+    } else {
+        let room = await grabRoom(db, recipient_id, sender.id)
+        if(room == null){
+            let new_room_id = await makeChatRoom(db, recipient_id, sender.id)
+            return new_room_id
+        } else {
+            return room.id
+        }
+}}
 ```
-### This code allows the user to submit a search based on a query.
+### This code displays all chatrooms that a loggin in user is currently a part of while also showing if those users are logged in as well.
 ``` javascript
- //Allows user to search based on query 
-import startSearch from './startSearch.js'
-import nextPage from './nextPage.js'
-
-let page = 1
-
-let submitSearch = document.getElementById('Search')
-submitSearch.addEventListener('click', ()=>{
-    let inpActivity = document.getElementById('inpActivity').value
-    let inpRadius = document.getElementById('inpRadius').value
-    let inpDate = document.getElementById('inpDate').value
-    let continuousDate = inpDate + '..'
-    page = 1
-
-    return startSearch(inpActivity, page, continuousDate, inpRadius)
-})
-
-let nextButton = document.getElementById('next')
-nextButton.addEventListener('click', ()=>{
-    page += 1
-
-    let inpActivity = document.getElementById('inpActivity').value
-    let inpRadius = document.getElementById('inpRadius').value
-    let inpDate = document.getElementById('inpDate').value
-    let continuousDate = inpDate + '..'
-
-    nextPage(inpActivity, page, continuousDate, inpRadius)
-})
+ const grabAllUserChats = async (db, user, online_users)=>{
+    new_html = ''
+    if(user.mentor == true){
+        let userchats = await db.any(`SELECT * FROM chat_rooms WHERE mentor_id='${user.id}'`)
+        chat_array = []
+        userchats.sort((a,b)=>a.id-b.id)
+        for(i=0;i<userchats.length;i++){
+            let user = await db.one(`SELECT * FROM users WHERE id='${userchats[i].mentee_id}'`)
+            let status = online_users.includes(user.id.toString())
+            if(status == true){
+                let room_html = `<a class="navbar-item" href="/chat/room/${userchats[i].id}">Chat Room With ${user.username} 🟢</a>`
+                new_html = new_html + room_html
+            } else {
+                let room_html = `<a class="navbar-item" href="/chat/room/${userchats[i].id}">Chat Room With ${user.username} ⚪</a>`
+                new_html = new_html + room_html
+            }
+        }
+        return new_html
+    } else {
+        let userchats = await db.any(`SELECT * FROM chat_rooms WHERE mentee_id='${user.id}'`)
+        chat_array = []
+        userchats.sort((a,b)=>a.id-b.id)
+        for(i=0;i<userchats.length;i++){
+            let user = await db.one(`SELECT * FROM users WHERE id='${userchats[i].mentor_id}'`)
+            let status = online_users.includes(user.id.toString())
+            if(status == true){
+                let room_html = `<a class="navbar-item" href="/chat/room/${userchats[i].id}">Chat Room With ${user.username} 🟢</a>`
+                new_html = new_html + room_html
+            } else {
+                let room_html = `<a class="navbar-item" href="/chat/room/${userchats[i].id}">Chat Room With ${user.username} ⚪</a>`
+                new_html = new_html + room_html
+            }
+        }
+        return new_html
+    }
+}
 ```
-### This is the actual data fetch.
+### This is where findmentspic goes.
 ```javascript
-//Fetching the data from the API
-import {activeKey, proxy} from "../config.js";
-import fillPage from './fillPage.js'
-
-function storePage(activity, page, date, radius){
-    fetch(`${proxy}http://api.amp.active.com/v2/search?query=${activity}&current_page=${page}&category=event&near=Atlanta,GA,US&start_date=${date}&radius=${radius}&api_key=${activeKey}`, {
-    })
-    .then(resp=>resp.json())
-    .then(json=>{
-        fillPage(json.results)
-    })
-}
-
-export default storePage
+// put it here
 ```
 ### This code constructs our Weather data from the API
 ``` javascript
-//greet and time
-const time = document.getElementById('time'),
-greeting = document.getElementById('greeting'),
-name = document.getElementById('name'),
-focus = document.getElementById('focus');
 
-// Options
-const showAmPm = true;
-
-// Show Time
-function showTime() {
-    let today = new Date(),
-    hour = today.getHours(),
-    min = today.getMinutes(),
-    sec = today.getSeconds();
-
-    // Set AM or PM
-    const amPm = hour >= 12 ? 'PM' : 'AM';
-
-    // 12hr Format
-    hour = hour % 12 || 12;
-
-    // Output Time
-    time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(
-        sec
-    )} ${showAmPm ? amPm : ''}`;
-
-    setTimeout(showTime, 1000);
-}
-
-// Add Zeros
-function addZero(n) {
-    return (parseInt(n, 10) < 10 ? '0' : '') + n;
-}
-
-// Run
-showTime();
-
-
-fetch('http://api.openweathermap.org/data/2.5/weather?q=Atlanta&appid=6a899e0702d3b935e5d01d1b77ea6d59')
-.then(resp=>resp.json())
-.then(json=>{
-    let city = json.name
-    let tempKelv = json.main.temp
-    let tempF = (tempKelv - 273.15) * 9/5 + 32
-    let roundedTemp = Math.round(tempF)
-    let temp = document.getElementById('temp')
-    temp.innerText = roundedTemp + '°'
-    let newCity = document.getElementById('city')
-    newCity.append(city)
-    let humidity = json.main.humidity
-    let humidityDiv = document.getElementById('humidity')
-    humidityDiv.innerText = humidity + '% Humidity'
-})
 ```
-## Demo of search feature
-[![Fit Pals demo](http://img.youtube.com/vi/W_FmXOzzQYU/0.jpg)](https://youtu.be/W_FmXOzzQYU)
