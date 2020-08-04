@@ -145,7 +145,7 @@ const checkChatRoom = async (sender, recipient_id, db) =>{
     }
 }
 ```
-### This is where findmentspic goes.
+### This snippet sets up the lobby page: it queries the database with the user's parameters, grabs the UI relevant information from various sources for each returned ment, and creates an html file to be template rendered
 ```javascript
 const renderSkills = require('./renderSkills.js') //import required functions
 
