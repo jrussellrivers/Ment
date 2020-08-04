@@ -56,6 +56,7 @@ Ment is a place for underprivileged people in the tech industry to network with 
 
 ## Stretch Goals Future
 - Adding networking event API to home page
+- Be able to edit profile
 - Dynamic homepage to show mentors and mentees
 - Uploading video
 - Live chatroom
