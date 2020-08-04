@@ -5,9 +5,43 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Index</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+        <style>
+          .grad-pink {
+                      background: linear-gradient(45deg, rgb(230, 106, 192), rgb(68, 55, 194));
+                  }
+          .grad-orange {
+                      background: linear-gradient(to right, rgb(255, 103, 23), rgb(245, 3, 224));
+                        }
+          .grad-blue{
+                      background: linear-gradient(to right, rgb(136, 23, 255), rgb(4, 180, 244));
+                        }
+          .card-content {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              background-attachment: fixed;
+              background-size: cover;
+              background-repeat: no-repeat;
+              background-position: 50% center;
+                  }
+          .card-content {
+              color: rgb(255, 255, 255);
+                  }
+          .btn-atom {
+          color: rgb(255, 255, 255);
+          font-size: 15px;
+          font-weight: 600;
+          background-color: rgb(0, 0, 0);
+          text-align: center;
+          display: inline-block;
+          padding: 15px 30px 13px;
+          border-radius: 8px;
+          transition: all 0.15s linear 0s;
+                    }
+        </style>
     </head>
     <body>
-        <section class="hero is-info is-medium is-bold">
+        <section class="hero is-info is-medium is-bold ">
             <div class="hero-head">
                 <nav class="navbar" role="navigation" aria-label="main navigation">
       
@@ -26,21 +60,18 @@
                   
                     <div id="navbarBasicExample" class="navbar-menu">
                       <div class="navbar-start">
-                        <a href="" class="navbar-item">
+                        <a href="/home" class="navbar-item">
                           Home
                         </a>
               
-                        <a href= "/lobby" class="navbar-item">
+                        <a href="/lobby" class="navbar-item">
                           Lobby
                         </a>
                   
-                        <a href="/html/about.html" class="navbar-item">
+                        <a href="./html/about.html" class="navbar-item">
                           About
                         </a>
               
-                        <a href="/html/image-upload.html" class="navbar-item">
-                          Upload Image
-                        </a>
                   
                       </div>
                   
@@ -60,10 +91,12 @@
                       </div>
                     </div>
                   </nav>
+                </div>
+              </div>
+              </section>
                  
 
-                  <!-- <section class="hero is-info is-large"> -->
-                  <section class="hero is-medium is-info is-bold">
+                  <section class="hero">
                     <div class="hero-body">
                       <h1 class="title">
                         Search for a Ment
@@ -83,20 +116,16 @@
                               </div>
                             </div>
                             <input class="input" type="text" placeholder="Enter Search" name="SearchQuery" >
-
                         </form>
+                        <br>
                             ${cards}
-                          
                         </h2>
                         </div>
                     </div>
-                </div>
-                </div>
-                </section>
+                
 
                   
 <!--                     
-
 <footer class="footer">
   <div class="content has-text-centered">
     <p>
@@ -111,109 +140,3 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="../js/navbarBurger.js"></script>
 </html>
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lobby v2</title>
-    <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.2/css/bulma.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
-    <script src="https://kit.fontawesome.com/7dc3015a44.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <link rel="stylesheet" href="../css/cards.css">
-    <style>
-    .true {
-        border-radius: 50px;
-        background-color: #4a7afa;
-        padding: 6px 10px;
-        margin-left: 10px;
-        color: #fff;
-        font-weight: 600;
-        font-size: 12px;
-        max-width: 100px;
-    }
-
-    .false {
-        background-color: grey;
-        visibility: hidden
-    }
-</style>
-  </head>
-  <body>
-     <nav class="navbar">
-      <div class="container">
-        <div class="navbar-brand">
-          <a class="navbar-item" href="#">
-            <img src="https://cdn.emk.dev/templates/bulma-logo-light.png" alt="Logo">
-          </a>
-          <span class="navbar-burger burger" data-target="navbarMenu">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </div>
-        <div id="navbarMenu" class="navbar-menu">
-          <div class="navbar-end">
-            <a class="navbar-item is-active">
-              Home
-            </a>
-            <a class="navbar-item">
-              Examples
-            </a>
-            <a class="navbar-item">
-              Features
-            </a>
-            <a class="navbar-item">
-              Team
-            </a>
-            <a class="navbar-item">
-              Archives
-            </a>
-            <a class="navbar-item">
-              Help
-            </a>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <form action="/lobby" method="POST"> 
-        <label><b>Search for a Ment</b></label> 
-        <select id="search" name="search">
-            <option value="username">Username</option>
-            <option value="password">Email</option>
-            <option value="zipcode">Zipcode</option>
-             <option value="audi">Audi</option> 
-        </select>
-        <input type="text" placeholder="Enter Search" name="SearchQuery"> 
-    </form>
-        ${cards}
-        <nav class="navbar is-transparent is-primary is-fixed-bottom">
-          <div class="navbar-brand">
-            <div class="navbar-burger burger" data-target="chatbar">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </div>
-        
-          <div id="chatbar" class="navbar-menu is-primary">
-            <div class="navbar-end">
-              <div class="navbar-item has-dropdown-up is-hoverable">
-                <div class="navbar-link navbar-end">
-                  Your Chat Rooms
-                </div>
-                <div class="navbar-dropdown is-boxed">
-                  ${chatrooms}
-                  <hr class="navbar-divider">
-                </div>
-              </div>
-            </div>
-          </div>
-        </nav>
-      </body>
-      <script src="../js/navbarBurger.js"></script>
-</html> -->
