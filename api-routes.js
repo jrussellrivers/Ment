@@ -240,18 +240,23 @@ const apiRoutes = (app, db)=>{
     app.get('/home', checkIsLoggedIn, async (req,res) =>{
         let online_users = grabOnlineUsers(req)
         let number_users = online_users.length
+        let user_chats = await grabAllUserChats(db, req.user, online_users)
         res.render("home", {
             locals: {
                 myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
-                number_users: number_users
+                number_users: number_users,
+                chatrooms: user_chats
             }
         })
     })
 
     app.get('/about', checkIsLoggedIn, async (req,res) =>{
+        let online_users = grabOnlineUsers(req)
+        let user_chats = await grabAllUserChats(db, req.user, online_users)
         res.render("about", {
             locals: {
-                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
+                chatrooms: user_chats
             }
         })
     })
