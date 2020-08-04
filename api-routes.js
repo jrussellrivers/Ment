@@ -234,12 +234,21 @@ const apiRoutes = (app, db)=>{
         res.redirect(`/user/${req.params.id}`)
     })
 
-    app.get('/home', async (req,res) =>{
+    app.get('/home', checkIsLoggedIn, async (req,res) =>{
         let online_users = grabOnlineUsers(req)
         let number_users = online_users.length
         res.render("home", {
             locals: {
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                 number_users: number_users
+            }
+        })
+    })
+
+    app.get('/about', checkIsLoggedIn, async (req,res) =>{
+        res.render("about", {
+            locals: {
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`
             }
         })
     })

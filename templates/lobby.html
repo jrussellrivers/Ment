@@ -68,24 +68,21 @@
                           Lobby
                         </a>
                   
-                        <a href="/html/about.html" class="navbar-item">
+                        <a href="/about" class="navbar-item">
                           About
                         </a>
+                  </div>
               
                   
-                      </div>
-                  
                       <div class="navbar-end">
-                        <div class="navbar-item">
-                          <div class="buttons">
-                            <a href="#" class="button is-primary">
-                              <strong>${user.username}</strong>
-                            </a>
-                            <form method="get" action="/logout"></form>
-                            <a href="/login" type="submit" class="button is-light">
-                                <strong>Log out</strong>
-                                </form>
-                            </a>
+                          <div class="navbar-item">
+                            <div class="buttons">
+                              ${myprofile}
+                              <form method="get" action="/logout"></form>
+                              <a href="/login" type="submit" class="button is-light">
+                                  <strong>Log out</strong>
+                                  </form>
+                              </a>
                           </div>
                         </div>
                       </div>
