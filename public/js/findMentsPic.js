@@ -14,77 +14,104 @@ const findMents = async (user, category, value, db, url) => {
         }
         return skillSets
     }
-    let skillSets = await getSkillSets(ments)
-
-    const getPhoto = async (id) => {
-        let result = await db.oneOrNone(`SELECT * FROM images WHERE user_id='${id}'`)
-        return (result == null ? '../profile_images/default.jpg' : result)
+    const grabConnections = async (user, db) => {
+        // console.log(user)
+        const menteeQ = await db.any(`SELECT * FROM connections WHERE mentee_id='${user.id}'`)
+        const mentorQ = await db.any(`SELECT * FROM connections WHERE mentor_id='${user.id}'`)
+        let result = (user.mentor == false ? menteeQ : mentorQ)
+        return result
     }
-    // let pics = []
-    // const getPhotos = async (ments) => {
-    //     for(i=0;i<ments.length;i++){
-    //         let pic = await getPhoto(ments[i].id)
-    //         pics.push(pic.imgname)
-    //     }
-    // }
-    // getPhotos(ments)
+    const getConnectionsLists = async (ments) => {
+        let connectionLists = []
+        for(let k=0;k<ments.length;k++){
+            let connectionList = await grabConnections(ments[k], db)
+            connectionLists.push(connectionList.length)
+        }
+        return connectionLists
+    }
+    let connectionLists = await getConnectionsLists(ments)
+    let connectionString = (notMentor == true ? "mentee count": "mentor count")
 
+    let skillSets = await getSkillSets(ments)
+    let skillString = (notMentor == false ? "My target skills" : "My expertise")
+
+    let styles = ["grad-pink", "grad-orange", "grad-blue"]
     // then generate hmtl cards for each user result. join at the end. Potentially sort them.
     let new_html = ''
     ments.map((ment, idx)=>{
+        style = styles[idx%3]
         // let pic = pics[idx]
-        pic_path = url + '/photos/' + ment.id
+        pic_path = url + '/photos/' + ment.id;
+        mentorUrl = `‘/user/${ment.id}’`;
         let new_card = 
-                `
-                <form action="/user/${ment.id}" method="get">
-                <button type="submit" class = "cardSubmit">
-                <div class="container">
-        <div class="section">
-            <div class="columns">
-            <div class="column has-text-centered">
-                <h1 class="title" style="color: ghostwhite;">${ment.username}</h1><br>
-            </div>
-            </div>
-            <div id="app" class="row columns is-multiline">
-            <div v-for="card in cardData" key="card.id" class="column is-4">
+        `
+        <div class="container">
+        <div class="section-content">
+        <div class="columns">
+        </div>
+        <div id="app" class="row columns is-multiline">
+            <div v-for="card in cardData" key="card.id" class="column is-12">
                 <div class="card large">
-                <div class="card-image is-16by9">
-                    <figure class="image">
-                    <img src=${pic_path} alt="Card Avatar">
-                    </figure>
-                </div>
-                <div class="card-content">
-                    <div class="media">
-                    <div class="media-content">
-                        <p class="title is-4 no-padding">${ment.username}</p>
-                        <p>
-                        <p class="subtitle is-6">
-                        <li><a href="/user/${ment.id}">${ment.username}'s profile</a>
-                        </p>
+                    <div class="card-content ${style}">
+                        <div class="media">
+                            <div class="media-content">
+                                <form action="/user/${ment.id}" method="get">
+                                    <button type="submit" class = "cardSubmit btn-atom">Check out ${ment.username}'s profile</button>
+                                </form>
+                                <div class="content">${ment.about}</div>
+                                <div class="content">Contact me at ${ment.email}</div>
+                                <div class="content">${ment.username}'s ${connectionString}: ${connectionLists[idx]}</div>
+                            </div>
+                        <div class="card-image">
+                            <figure class="image">
+                                <img src=${pic_path} alt="Card Avatar">
+                            </figure>
+                        </div>
+                        </div>
+                        <div class="content">${skillString}: ${skillSets[idx]}</div>
                     </div>
-                    </div>
-                    <div class="content">
-                    ${ment.about}
-                    </div>
-                    <div class="content">
-                    Contact me at ${ment.email}
-                    </div>
-                    <div class="content">
-                    My Expertise: ${skillSets[idx]}
-                    </div>
-                </div>
                 </div>
             </div>
-            </div>
         </div>
-        </div>
-        </button>
-        </form>
-
-                `
+    </div>
+    </div>
+        `
     new_html = new_html + new_card
     }).join("")
     return new_html
 }
 
 module.exports = findMents
+
+// let new_card = `
+
+// `
+
+// `
+// <div class="tile is-parent" style = "text-align:center" onclick="window.location.replace(${mentorUrl})">
+//     <article class="tile is-child box">
+//         <div class="section-content">
+//                 <div class="card-content ${style}">
+//                     <div class="media">
+//                         <div class="media-content">
+//                             <form action="/user/${ment.id}" method="get">
+//                                 <button type="submit" class = "cardSubmit btn-atom">Check out ${ment.username}'s profile</button>
+//                             </form>
+//                             <div class="content">${ment.about}</div>
+//                             <div class="content">Contact me at ${ment.email}</div>
+//                             <div class="content">${ment.username}'s ${connectionString}: ${connectionLists[idx]}</div>
+//                         </div>
+//                     <div class="card-image">
+//                         <figure class="image">
+//                             <img src=${pic_path} alt="Card Avatar">
+//                         </figure>
+//                     </div>
+//                     </div>
+//                     <div class = "bottomBox">
+//                         <div class="content">${skillString}: ${skillSets[idx]}</div>
+//                     </div>
+//                 </div>
+//             </div>
+//     </article>                
+// </div>
+// `

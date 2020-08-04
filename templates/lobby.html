@@ -23,8 +23,10 @@
               background-size: cover;
               background-repeat: no-repeat;
               background-position: 50% center;
+              border-radius: 10px;
+              box-shadow: 0px 5px 5px darkgrey;
                   }
-          .card-content {
+          .card-content, .title {
               color: rgb(255, 255, 255);
                   }
           .btn-atom {
@@ -37,43 +39,88 @@
           padding: 15px 30px 13px;
           border-radius: 8px;
           transition: all 0.15s linear 0s;
+          margin-bottom: 10px;
                     }
+          .true {
+          border-radius: 50px;
+          background-color: #4a7afa;
+          padding: 6px 10px;
+          margin-left: 10px;
+          color: #fff;
+          font-weight: 600;
+          font-size: 12px;
+          max-width: 100px;
+        }
+          .false {
+          border-radius: 50px;
+          background-color: rgb(228, 228, 228);
+          padding: 6px 10px;
+          margin-left: 10px;
+          color: rgb(122, 122, 122);
+          font-weight: 600;
+          font-size: 12px;
+          max-width: 100px;
+      }
+          .skills-container{
+        margin: 10px;
+        display: flex;
+        justify-content: center;
+      }
+          .skill-tag{
+        min-width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+        img{
+          max-height: 300px;
+          max-width: 300px;
+          border-radius: 50%;
+          border: 4px solid white;
+        }
+        .container{
+          padding: 10px;
+          border-color: black;
+          border-radius: 10px;
+        }
+        .bottomBox{
+          position:absolute;
+          height: 60px;
+          background-color: white;
+          width: 100%;
+          bottom:0;
+          border-radius: 0 0 10px 10px;
+          display:flex;
+        }
+        .media{
+          width: 100%;
+          display: flex;
+          justify-content: space-evenly;
+        }
         </style>
     </head>
     <body>
-        <section class="hero is-info is-medium is-bold ">
+        <section class="hero grad-pink is-medium is-bold ">
             <div class="hero-head">
                 <nav class="navbar" role="navigation" aria-label="main navigation">
-      
                     <!-- This needs to be the Logo -->
                     <div class="navbar-brand">
                       <a class="navbar-item" href="/">
                         <img src="/images/Ment.png" width="112" height="28">
                       </a>
-                  
                       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                       </a>
                     </div>
-                  
                     <div id="navbarBasicExample" class="navbar-menu">
                       <div class="navbar-start">
-                        <a href="/home" class="navbar-item">
-                          Home
-                        </a>
-              
-                        <a href="/lobby" class="navbar-item">
-                          Lobby
-                        </a>
-                  
-                        <a href="/about" class="navbar-item">
-                          About
-                        </a>
-                  </div>
-              
-                  
+                        <a href="" class="navbar-item">Home</a>
+                        <a href= "/lobby" class="navbar-item">Lobby</a>
+                        <a href="/html/about.html" class="navbar-item">About</a>
+                        <a href="/html/image-upload.html" class="navbar-item">Upload Image</a>
+                      </div>
                       <div class="navbar-end">
                           <div class="navbar-item">
                             <div class="buttons">
@@ -89,16 +136,15 @@
                     </div>
                   </nav>
                 </div>
-              </div>
-              </section>
-                 
-
+                  <!-- <section class="hero is-info is-large"> -->
                   <section class="hero">
                     <div class="hero-body">
                       <h1 class="title">
                         Search for a Ment
                       </h1>
-                      
+                </div>
+              </section>
+            </section>
                   <div class="panel">
                     <div class="panel-block">
                         <div class="field">
@@ -112,26 +158,23 @@
                                 </select>
                               </div>
                             </div>
-                            <input class="input" type="text" placeholder="Enter Search" name="SearchQuery" >
+                          <input class="input" type="text" placeholder="Enter Search" name="SearchQuery" >
                         </form>
                         <br>
                             ${cards}
                         </h2>
                         </div>
                     </div>
-
-                    <section class="hero is-medium is-primary is-bold">
-                      <div class="hero-body">
-                        <div class="container">
-                        
-                        </div>
-                      </div>
-                    </section>
-                
-
-
+<!--                     
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+    </p>
+  </div>
+</footer>
+                 -->
     </body>
     <script src="../js/bulma.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <script src="/js/navbarBurger.js"></script>
+    <script src="../js/navbarBurger.js"></script>
 </html>

@@ -22,7 +22,6 @@ const renderView = async (req, res, next) => {
     }
     let user_chats = await grabAllUserChats(db, req.user, online_users)
 
-
     const showMyProfile = async () => {
         res.render("myProfile", {
             locals: {

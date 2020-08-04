@@ -18,4 +18,5 @@ const renderSkills = async (user_id, db) => {
     cards = cards + `</div>`
     return cards
 }
+
 module.exports = renderSkills
