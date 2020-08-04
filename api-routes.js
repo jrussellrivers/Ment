@@ -91,6 +91,7 @@ const apiRoutes = (app, db)=>{
             new_cards = ''
             res.render("lobby", {
                 locals: {
+                    myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                     chatrooms: user_chats,
                     cards: new_cards,
                     user: req.user || {type:"N/A",username:"N/A"},
@@ -99,6 +100,7 @@ const apiRoutes = (app, db)=>{
         }else{
         res.render("lobby", {
             locals: {
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                 chatrooms: user_chats,
                 cards: new_cards,
                 user: req.user || {type:"N/A",username:"N/A"},
@@ -209,6 +211,7 @@ const apiRoutes = (app, db)=>{
         let user_chats = await grabAllUserChats(db, req.user, online_users)
         res.render("chat_room", {
             locals: {
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                 chatrooms: user_chats,
                 return_link:'href="/user/' + return_id + '"',
                 return_username: return_username,
