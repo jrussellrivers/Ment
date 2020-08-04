@@ -1,5 +1,5 @@
 # Ment
-![rmbanner](https://imgur.com/a/OYz8SdQ)
+<img src="https://imgur.com/a/OYz8SdQ">
 ## Overview: 
 Fit Pals is a dedicated search for physical events in the Atlanta area. By users querying their search, they may return up-to-date events in which to participate in either solo, with loved ones or to meet new friends. Each search returns events, in your area, on the date and for events thereafter.
 
