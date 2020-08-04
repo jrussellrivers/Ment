@@ -1,70 +1,77 @@
 # Ment
-<img src="https://imgur.com/a/OYz8SdQ">
+![rmbanner](https://github.com/dmitchell217/ProjectM/blob/master/public/images/Ment.png)
 ## Overview: 
-Fit Pals is a dedicated search for physical events in the Atlanta area. By users querying their search, they may return up-to-date events in which to participate in either solo, with loved ones or to meet new friends. Each search returns events, in your area, on the date and for events thereafter.
+Ment is a place for underprivileged people in the tech industry to network with each other. In our website, mentors and mentees can locate other users based on location, username, or email. The site focuses less on what resume qualifications a mentee may have, and more on their story.     
 
 ## The Team:
-### Jordan Rivers: https://github.com/jrussellrivers
+### David Mitchell: https://github.com/dmitchell217
 **Primary team role:** Team Lead; Front-End markup and styling, Javascript Function writer
 
-**Contributions:** Designed and implemented search query using Active.com API Event Search. Assisted with Style and Layout Design. Oversaw organization of all javascript files and implementations. Created Contact page. 
+**Contributions:** Wrote the code to register new users to the site and add the users to our database. From there, built the funtionality of the personal User pages and added a feature to add skills to ones User page. Helped implement code to save and store images onto the server. Tied all the user information together in a search feature to display user "cards" so that users can find each other easily. Worked heavily with Express routing and storing/accessing content from the database.
 
-### Mike Cadima: https://github.com/mikecadima
+### Priyanka Farrell: https://github.com/pfarrell18
 **Primary team role:** Front-End markup and styling, concepting and Javascript Function writer
 
-**Contributions:** Oversaw creation of Landing Page of project application. Implemented "slideable" menu and created div block with data from Weather API and a time counter function. 
+**Contributions:** Helped set up passport logins into the site and helped implement code to save and store images onto the server. Designed the About page, Chat Rooms, and Home page of the site. Implemented Bulma.io into said designed pages to be fully responsive.
 
-### PJ Almeida: https://github.com/palmeida7
+### Carrie Grossman: https://github.com/carriegrossman
+**Primary team role:** Front-End markup and styling, concepting
+
+**Contributions:** Oversaw creative layout design of webpages. Worked heavily with Bulma.io to implement responsive design into all of our pages. Designed the top navbar with hamburger menu to be able to acess different portions of the site.
+
+### Jordan Rivers: https://github.com/jrussellrivers
 **Primary team role:** Front-End markup and styling, concepting and Javascript Function writer
 
-**Contributions:** Oversaw creative layout design of webpages. Implemented Light/Dark mode feature and calendar frame. Designed Events Page and ReadMe document.
+**Contributions:** Wrote the code to send chat messages between users and also set up user connections with one another. Added the bottom chat bar functionality to be able to access the chat rooms that you are a part of as well as being able to see what users are logged into the site. Worked heavily with Express routing and storing/accessing content from the database.
 
 ## What we used:
 ### Languages:
 - HTML5
 - CSS
 - JAVASCRIPT
-
-### APIs
-- Active.com Search
-- Open Weather Map
+- Node
+- Express
+- SQL
 
 ### Other:
-- JSON
-- Favicon
-- Google Calendar
-- Light/Dark Mode
-- Slider Menu
-- Query Search
+- Passport
+- ES6 Templates
+- Bulma.io
+- Chat Feature
+- Search Query
 
 ## MVP (Minimum Viable Product):
-- Search query for physical events in the Atlanta, Georgia area
+- User profiles that can chat with one another
 - Initial design and layout
-- Slider menu
+- Basic search queries
 
 ## Stretch Goals Completed
-- Using Promise to obtain data from API
-- Sliding Menu
-- Light/Dark mode feature
-- Modern look of webpages
-- Implementing data div with Weather API and time counter function
+- Fully implemented Bulma.io
+- Added skills
+- Storing image files
+- Showed which users are online
+- User connections
+- Dynamic user profiles based on logged user
 
 ## Stretch Goals Future
-- Allowing users to create personal profiles and connect with others attending the same events
-- Expand city and activities search to include more metros and events to choose from 
-- Functioning Calendar API
+- Adding networking event API to home page
+- Dynamic homepage to show mentors and mentees
+- Uploading video
+- Live chatroom
+- Implementing online classes
 
 ## Challenges & Solutions:
-### ***Challenge:*** Obtaining a proxy solution that would allow us to access the data from the API upon calling it, despite a CORS error.
-### ***Solution:*** Inserted proxy code before url to allow obtaining the information.
+### ***Challenge:*** Apostrophes were not allowed in chat messages due to them being interpreted wrong in SQL
+
+### ***Solution:*** Set up a regular expression to replace all apostrophes with 'double' apostrophes in order to store messages.
 ___
 ### ***Challenge:*** Creating a media responsive website for all formats.
 
-### ***Solution:*** Reading documentation, trial and error. The website is viewable across any medium: computer, tablet or smart phone.
+### ***Solution:*** Reading Bulma.io documentation, trial and error. The website is viewable across any medium: computer, tablet or smart phone.
 ___
-### ***Challenge:*** Correctly implementing other API's and functions to create an informative and active page.
+### ***Challenge:*** Correctly storing image files in order to load them on user pages
 
-### ***Solution:*** Experimenting with code structure to produce the correct output.
+### ***Solution:*** Stored files with unique naming conventions into server. Hosted those files on our server through routing. 
 
 ## Code Snippets:
 ### Our main Javascript file displays the Slider Feature of the menu and Light/Dark mode code.
