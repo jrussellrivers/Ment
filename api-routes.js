@@ -83,12 +83,11 @@ const apiRoutes = (app, db)=>{
         // middlware should handle everything here.
     })
 
-    var new_cards = undefined;
+    var new_cards = '';
     app.get(`/lobby`, checkIsLoggedIn, async (req,res)=> {
         let online_users = grabOnlineUsers(req)
         let user_chats = await grabAllUserChats(db, req.user, online_users)
-        if (new_cards == undefined){
-            new_cards = ''
+        if (new_cards == ''){
             res.render("lobby", {
                 locals: {
                     myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
@@ -98,11 +97,13 @@ const apiRoutes = (app, db)=>{
                 }
             })
         }else{
+            temp = new_cards
+            new_cards = ''
         res.render("lobby", {
             locals: {
                 myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                 chatrooms: user_chats,
-                cards: new_cards,
+                cards: temp,
                 user: req.user || {type:"N/A",username:"N/A"},
             }
         })
