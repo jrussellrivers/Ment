@@ -107,7 +107,7 @@ const checkChatRoom = async (sender, recipient_id, db) =>{
         }
 }}
 ```
-### This code displays all chatrooms that a loggin in user is currently a part of while also showing if those users are logged in as well.
+### This code displays all chatrooms that a logged in user is currently a part of while also showing if those users are logged in as well.
 ``` javascript
  const grabAllUserChats = async (db, user, online_users)=>{
     new_html = ''
