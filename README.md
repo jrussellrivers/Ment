@@ -233,7 +233,33 @@ const findMents = async (user, category, value, db, url) => {
 module.exports = findMents
 
 ```
-### This code constructs our Weather data from the API
+### This code enables users to change their database-stored skills' boolean value and neatly template renders them
 ``` javascript
+const updateSkills = async (db, user_id, skill) => {
+    let value = await db.one(`SELECT ${skill} FROM skills WHERE id='${user_id}'`)
+    let newValue = (Object.values(value)[0] == true ? 'f' : 't') 
+    await db.none(`UPDATE skills set ${skill} = '${newValue}' where id = '${user_id}'`)
+}
+module.exports = updateSkills
 
+const renderSkills = async (user_id, db) => {
+    const SKILLCOUNT = 6
+    const skills = ["product_management", "design", "machine_learning", "data_science", "software_engineering", "web_development"]
+
+    const checkVal = async (skill, user_id) => {
+        let result = await db.one(`SELECT ${skill} FROM skills WHERE id='${user_id}'`)
+        return Object.values(result)
+    }
+    let cards = `
+    <div class = "skills-container"> `
+    for (i=0;i<SKILLCOUNT;i++) {
+        let skill_name = skills[i].split("_").join(" ")
+        let skillStatus =  await checkVal(skills[i], user_id)
+        cards = cards + `<div class = "skill-tag ${skillStatus}">${skill_name}</div>`
+    }
+    cards = cards + `</div>`
+    return cards
+}
+
+module.exports = renderSkills
 ```
