@@ -26,6 +26,7 @@ const renderView = async (req, res, next) => {
     const showMyProfile = async () => {
         res.render("myProfile", {
             locals: {
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                 chatrooms: user_chats,
                 user: userProfile || {type:"N/A",username:"N/A"},
                 picture: `<img src="/profile_images/${picture}">`,
@@ -41,6 +42,7 @@ const renderView = async (req, res, next) => {
     const showOrToEeProfile = async () => {
         res.render("mentorToMentee", {
             locals: {
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                 chatrooms: user_chats,
                 online: online_pic,
                 user: userProfile || {type:"N/A",username:"N/A"},
@@ -60,6 +62,7 @@ const renderView = async (req, res, next) => {
     const showEeToOrProfile = async () => {
         res.render("menteeToMentor", {
             locals: {
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                 chatrooms: user_chats,
                 online: online_pic,
                 user: userProfile || {type:"N/A",username:"N/A"},
@@ -79,6 +82,7 @@ const renderView = async (req, res, next) => {
     const showEeToEeProfile = async () => {
         res.render("mentToMent", {
             locals: {
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                 chatrooms: user_chats,
                 online: online_pic,
                 user: userProfile || {type:"N/A",username:"N/A"},
@@ -95,6 +99,7 @@ const renderView = async (req, res, next) => {
         
         res.render("mentToMent", {
             locals: {
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                 chatrooms: user_chats,
                 online: online_pic,
                 user: userProfile || {type:"N/A",username:"N/A"},

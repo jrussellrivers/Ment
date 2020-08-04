@@ -3,7 +3,7 @@
     <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Chat Room ${room_id}</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     </head>
@@ -35,22 +35,21 @@
                           Lobby
                         </a>
                   
-                        <a href="/html/about.html" class="navbar-item">
+                        <a href="/about" class="navbar-item">
                           About
                         </a>
+                  </div>
               
                   
-                      </div>
-                  
                       <div class="navbar-end">
-                        <div class="navbar-item">
-                          <div class="buttons">
-                            <a href="/register" class="button is-primary">
-                              <strong>Sign up</strong>
-                            </a>
-                            <a href="/login" class="button is-light">
-                              Log in
-                            </a>
+                          <div class="navbar-item">
+                            <div class="buttons">
+                              ${myprofile}
+                              <form method="get" action="/logout"></form>
+                              <a href="/login" type="submit" class="button is-light">
+                                  <strong>Log out</strong>
+                                  </form>
+                              </a>
                           </div>
                         </div>
                       </div>

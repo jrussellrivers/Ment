@@ -91,6 +91,7 @@ const apiRoutes = (app, db)=>{
             new_cards = ''
             res.render("lobby", {
                 locals: {
+                    myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                     chatrooms: user_chats,
                     cards: new_cards,
                     user: req.user || {type:"N/A",username:"N/A"},
@@ -99,6 +100,7 @@ const apiRoutes = (app, db)=>{
         }else{
         res.render("lobby", {
             locals: {
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                 chatrooms: user_chats,
                 cards: new_cards,
                 user: req.user || {type:"N/A",username:"N/A"},
@@ -209,6 +211,7 @@ const apiRoutes = (app, db)=>{
         let user_chats = await grabAllUserChats(db, req.user, online_users)
         res.render("chat_room", {
             locals: {
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                 chatrooms: user_chats,
                 return_link:'href="/user/' + return_id + '"',
                 return_username: return_username,
@@ -234,12 +237,21 @@ const apiRoutes = (app, db)=>{
         res.redirect(`/user/${req.params.id}`)
     })
 
-    app.get('/home', async (req,res) =>{
+    app.get('/home', checkIsLoggedIn, async (req,res) =>{
         let online_users = grabOnlineUsers(req)
         let number_users = online_users.length
         res.render("home", {
             locals: {
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`,
                 number_users: number_users
+            }
+        })
+    })
+
+    app.get('/about', checkIsLoggedIn, async (req,res) =>{
+        res.render("about", {
+            locals: {
+                myprofile: `<a href="/user/${req.user.id}" class="button is-primary"><strong>My Profile</strong></a>`
             }
         })
     })
