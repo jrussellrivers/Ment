@@ -17,7 +17,7 @@ Ment is a place for underprivileged people in the tech industry to network with 
 ### Carrie Grossman: https://github.com/carriegrossman
 **Primary team role:** Front-End markup and styling, concepting
 
-**Contributions:** Oversaw creative layout design of webpages. Designed the Login page, Register, and all Profile pages of the site.Worked heavily with Bulma.io to implement responsive design into all of our pages. Designed the top navbar with hamburger menu to be able to acess different portions of the site.
+**Contributions:** Oversaw creative layout design of webpages. Designed the Login page, Register, and all Profile pages of the site. Worked heavily with Bulma.io to implement responsive design into all of our pages. Designed the top navbar with hamburger menu to be able to acess different portions of the site.
 
 ### Jordan Rivers: https://github.com/jrussellrivers
 **Primary team role:** Front-End markup and styling, concepting and Javascript Function writer
