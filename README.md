@@ -1,4 +1,4 @@
-# Ment
+# Welcome To Ment
 ![rmbanner](https://github.com/dmitchell217/ProjectM/blob/master/public/images/Ment.png)
 ## Overview: 
 Ment is a place for underprivileged people in the tech industry to network with each other. In our website, mentors and mentees can locate other users based on location, username, or email. The site focuses less on what resume qualifications a mentee may have, and more on their story.     
