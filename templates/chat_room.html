@@ -62,25 +62,23 @@
             </div>
         </section>
 
-    <h1 class="title">Your chat with ${return_username}</h1>
-    <a ${return_link}>Go to ${return_username}'s Page</a>
-    <table id="chatbox" class="table is-hoverable is-striped is-fullwidth">
-        <thread>
-            <tr class="is-selected">
-                <th>Name</th>
-                <th>Message</th>
-            </tr>
-        </thread>
-    </table>
-
-    <div class="table-container" style="height: 300px; overflow-y: scroll;">
-        <table id="chatbox" class="table is-hoverable is-striped is-fullwidth">
-            <tbody>
-                ${messages}
-            </tbody>
-        </table>
-    </div>
-
+        <h1 class="title">Your chat with ${return_username}</h1>
+    
+        <a ${return_link} class = "subtitle has-text-primary">${return_username}'s Page</a>
+        
+        <div class="table-container" style="height: 300px; overflow-y: auto;">
+            <table id="chatbox" class="table is-hoverable is-striped is-fullwidth">
+                <!-- <thread> -->
+                    <thead class="is-selected static-chat">
+                        <th>Name</th>
+                        <th>Message</th>
+                    </thead>
+                <!-- </thread> -->
+                <tbody>
+                    ${messages}
+                </tbody>
+            </table>
+    
         <form ${actionstring} method="POST">
             <input type="text" class="input is-rounded control" id="message-input" name="messageinput" placeholder="Enter Message Here"/>
             <input type="submit" style="display: none;" />
