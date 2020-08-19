@@ -7,12 +7,12 @@ Ment is a place for underprivileged people in the tech industry to network with 
 
 ## The Team:
 ### David Mitchell: https://github.com/dmitchell217
-**Primary team role:** Team Lead; Front-End markup and styling, Javascript Function writer
+**Primary team role:** Team Lead; Front-End markup and styling, JavaScript Function writer
 
 **Contributions:** Wrote the code to register new users to the site and add the users to our database. From there, built the funtionality of the personal User pages and added a feature to add skills to ones User page. Helped implement code to save and store images onto the server. Tied all the user information together in a search feature to display user "cards" so that users can find each other easily. Worked heavily with Express routing and storing/accessing content from the database.
 
 ### Priyanka Farrell: https://github.com/pfarrell18
-**Primary team role:** Front-End markup and styling, concepting and Javascript Function writer
+**Primary team role:** Front-End markup and styling, concepting and JavaScript Function writer
 
 **Contributions:** Helped set up passport logins into the site and helped implement code to save and store images onto the server. Designed the About page, Chat Rooms, and Home page of the site. Implemented Bulma.io into said designed pages to be fully responsive.
 
@@ -22,7 +22,7 @@ Ment is a place for underprivileged people in the tech industry to network with 
 **Contributions:** Oversaw creative layout design of webpages. Designed the Login page, Register, and all Profile pages of the site. Worked heavily with Bulma.io to implement responsive design into all of our pages. Designed the top navbar with hamburger menu to be able to acess different portions of the site.
 
 ### Jordan Rivers: https://github.com/jrussellrivers
-**Primary team role:** Front-End markup and styling, concepting and Javascript Function writer
+**Primary team role:** Front-End markup and styling, concepting and JavaScript Function writer
 
 **Contributions:** Wrote the code to send chat messages between users and also set up user connections with one another. Added the bottom chat bar functionality to be able to access the chat rooms that you are a part of as well as being able to see what users are logged into the site. Worked heavily with Express routing and storing/accessing content from the database.
 
